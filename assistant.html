@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Assistente IA MakerAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif; }
+        body { background: transparent; overflow: hidden; touch-action: manipulation; height: 100vh; }
+        .assistant-panel { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: rgba(18, 18, 18, 0.98); backdrop-filter: blur(20px); color: white; display: flex; flex-direction: column; z-index: 9999; overflow: hidden; border-radius: 24px; }
+        .chat-header { padding: 10px 14px; background: linear-gradient(to right, rgba(95, 46, 255, 0.2), rgba(143, 107, 255, 0.1)); border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; min-height: 52px; }
+        .chat-header h3 { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .chat-header h3 i { color: #8f6bff; font-size: 20px; }
+        .close-btn { background: rgba(255, 255, 255, 0.1); border: none; color: white; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
+        .close-btn:hover, .close-btn:active { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
+        .messages-container { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 16px; display: flex; flex-direction: column; gap: 12px; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+        .messages-container::-webkit-scrollbar { width: 4px; }
+        .messages-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+        .messages-container::-webkit-scrollbar-thumb { background: rgba(95, 46, 255, 0.5); border-radius: 10px; }
+        .message { max-width: 100%; width: fit-content; min-width: 60px; padding: 14px 16px; border-radius: 18px; line-height: 1.5; word-wrap: break-word; word-break: break-word; overflow-wrap: break-word; animation: messageIn 0.3s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); font-size: 15px; }
+        @keyframes messageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .user-message { background: linear-gradient(135deg, #5f2eff, #8f6bff); color: white; align-self: flex-end; border-bottom-right-radius: 6px; margin-left: auto; max-width: 90%; }
+        .ai-message { background: rgba(255, 255, 255, 0.1); color: #f0f0f0; align-self: flex-start; border-bottom-left-radius: 6px; max-width: 90%; }
+        .typing-indicator { display: flex; gap: 6px; padding: 14px 18px; background: rgba(255, 255, 255, 0.1); border-radius: 18px; align-self: flex-start; width: 70px; margin: 4px 0; }
+        .typing-indicator span { width: 8px; height: 8px; border-radius: 50%; background: #8f6bff; opacity: 0.4; animation: typing 1.4s infinite ease-in-out; }
+        .typing-indicator span:nth-child(1) { animation-delay: 0s; }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing { 0%, 100% { opacity: 0.4; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-5px); } }
+        .quick-options-container { padding: 8px 13px; border-top: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 15, 15, 0.8); flex-shrink: 0; position: relative; min-height: 48px; overflow: hidden; }
+        .quick-options-title { font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .quick-options-carousel { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding-bottom: 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none; width: 100%; }
+        .quick-options-carousel::-webkit-scrollbar { display: none; }
+        .quick-option { flex: 0 0 auto; padding: 6px 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; color: white; font-size: 12px; cursor: pointer; transition: all 0.2s; text-align: left; -webkit-tap-highlight-color: transparent; display: flex; align-items: center; gap: 6px; white-space: nowrap; scroll-snap-align: start; min-width: fit-content; }
+        .quick-option:hover, .quick-option:active { background: rgba(95, 46, 255, 0.2); border-color: rgba(95, 46, 255, 0.3); transform: translateY(-2px); }
+        .carousel-indicators { display: flex; justify-content: center; gap: 6px; margin-top: 8px; }
+        .carousel-indicator { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); border: none; padding: 0; cursor: pointer; transition: all 0.3s; }
+        .carousel-indicator.active { background: #8f6bff; transform: scale(1.2); }
+        .input-container { padding: 10px 12px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; gap: 10px; background: rgba(15, 15, 15, 0.9); flex-shrink: 0; align-items: center; }
+        #assistantInput { flex: 1; padding: 10px 14px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; background: rgba(255, 255, 255, 0.08); color: white; font-size: 14px; outline: none; transition: all 0.3s; min-height: 40px; max-height: 120px; resize: none; line-height: 1.4; }
+        #assistantInput:focus { border-color: rgba(143, 107, 255, 0.5); background: rgba(255, 255, 255, 0.12); }
+        #assistantInput::placeholder { color: rgba(255, 255, 255, 0.4); }
+        .send-btn { background: linear-gradient(135deg, #8f6bff, #5f2eff); border: none; width: 40px; height: 40px; border-radius: 50%; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 14px; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+        .send-btn:hover, .send-btn:active { transform: scale(1.05); box-shadow: 0 8px 20px rgba(95, 46, 255, 0.4); }
+        .message strong { font-weight: 600; color: inherit; }
+        .message em { font-style: italic; opacity: 0.9; }
+        .message br { display: block; margin: 6px 0; content: ""; }
+        .loading { opacity: 0.7; pointer-events: none; }
+        .back-btn { display: none; }
+        @media (max-width: 767px) {
+            .back-btn { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255, 255, 255, 0.1); border: none; border-radius: 50%; color: white; cursor: pointer; margin-right: 10px; -webkit-tap-highlight-color: transparent; }
+            .chat-header { padding: 8px; }
+            .quick-options-container { min-height: 40px; }
+        }
+        @media (min-width: 768px) {
+            .chat-header { padding: 6px 20px; }
+            .messages-container { padding: 10px 12px; gap: 16px; }
+            .message { max-width: 85%; padding: 14px 18px; }
+            .user-message, .ai-message { max-width: 85%; }
+            .quick-options-container { padding: 16px 20px; }
+            .quick-option { padding: 12px 16px; font-size: 14px; white-space: normal; min-width: 140px; }
+            .input-container { padding: 10px; gap: 12px; }
+        }
+        @media (max-width: 360px) {
+            .chat-header h3 { font-size: 16px; }
+            .chat-header h3 i { font-size: 18px; }
+            .close-btn { width: 40px; height: 40px; }
+            .quick-option { padding: 8px 12px; font-size: 12px; }
+            .message { padding: 12px 14px; font-size: 14px; }
+            #assistantInput { padding: 14px 16px; font-size: 14px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .assistant-panel, .message, .typing-indicator span, .send-btn, .quick-option, .close-btn { transition: none; animation: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="assistant-panel" id="assistantPanel" aria-hidden="true" role="dialog" aria-label="Painel do Assistente IA" aria-modal="true">
+        <div class="chat-header">
+            <button class="back-btn" id="backBtn" aria-label="Voltar" style="display: none;">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h3><i class="fas fa-robot"></i> Assistente MakerAI</h3>
+            <button class="close-btn" id="closeAssistant" aria-label="Fechar assistente">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="messages-container" id="messagesContainer"></div>
+
+        <div class="quick-options-container" id="quickOptionsContainer">
+            <div class="quick-options-title">
+                <i class="fas fa-bolt"></i> Perguntas rápidas:
+            </div>
+            <div class="quick-options-carousel" id="quickOptionsCarousel"></div>
+            <div class="carousel-indicators" id="carouselIndicators"></div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="assistantInput" placeholder="Digite sua mensagem..." aria-label="Mensagem para o assistente">
+            <button class="send-btn" id="sendAssistantBtn" aria-label="Enviar mensagem">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // ELEMENTOS E VARIÁVEIS
+        // ============================================
+        const assistantPanel = document.getElementById('assistantPanel');
+        const closeAssistant = document.getElementById('closeAssistant');
+        const backBtn = document.getElementById('backBtn');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const assistantInput = document.getElementById('assistantInput');
+        const sendAssistantBtn = document.getElementById('sendAssistantBtn');
+        const quickOptionsCarousel = document.getElementById('quickOptionsCarousel');
+        const carouselIndicators = document.getElementById('carouselIndicators');
+
+        let conversationHistory = [];
+        let isProcessing = false;
+        let carouselInterval;
+        let currentCarouselIndex = 0;
+
+        // ============================================
+        // BASE DE CONHECIMENTO LOCAL
+        // ============================================
+        const knowledgeBase = {
+            // Serviços
+            "serviços": `🚀 **SERVIÇOS MAKERAI STUDIO**
+
+🤖 **Assistentes & IA**
+• Chatbots inteligentes para atendimento
+• Avatares 3D com personalidade
+• Análise de dados com machine learning
+• Automação de processos com IA
+
+💻 **Web & PWAs**
+• Sites progressivos (PWAs) com performance nativa
+• E-commerce otimizado para conversão
+• Sistemas web responsivos
+• Aplicações single-page (SPA)
+
+⚡ **Automações & RPA**
+• Bots para tarefas repetitivas
+• Integração entre sistemas (API)
+• Web scraping inteligente
+• Processamento de documentos
+
+🎨 **Design & 3D**
+• Modelagem 3D de produtos
+• Realidade aumentada (AR) para e-commerce
+• Visualizações interativas
+• Animções e microinterações
+
+📊 **Sistemas & Dashboards**
+• Painéis de controle em tempo real
+• Análise de dados e business intelligence
+• Sistemas de gestão customizados
+• APIs RESTful e GraphQL
+
+🔍 **Marketing & SEO**
+• Estratégia de conteúdo para IA
+• SEO técnico avançado
+• Copywriting otimizado
+• Análise de concorrência
+
+*Qual área te interessa mais?*`,
+
+            "preço": `💰 **INVESTIMENTO**
+
+📍 **NÍVEL BÁSICO** (R$ 5.000 - R$ 15.000)
+• Landing pages otimizadas
+• Sites institucionais
+• Blog corporativo
+• SEO básico
+
+📍 **NÍVEL INTERMEDIÁRIO** (R$ 15.000 - R$ 50.000)
+• E-commerce completo
+• Sistemas web com dashboard
+• PWAs com funcionalidades offline
+• Automações simples
+
+📍 **NÍVEL AVANÇADO** (R$ 50.000 - R$ 150.000+)
+• Plataformas complexas com IA
+• Sistemas de recomendação
+• Processamento de linguagem natural
+• Soluções empresariais escaláveis
+
+📍 **MANUTENÇÃO** (R$ 500 - R$ 5.000/mês)
+• Suporte técnico 24/7
+• Atualizações de segurança
+• Otimização contínua
+• Backup e monitoramento
+
+*💡 Oferecemos parcelamento e planos personalizados!*`,
+
+            "prazo": `⏰ **PRAZOS DE ENTREGA**
+
+⚡ **PROTÓTIPO RÁPIDO** → 1-2 semanas
+• Validação de conceito
+• MVP funcional
+• Testes de usabilidade
+
+🔄 **PROJETO PADRÃO** → 4-8 semanas
+• Design e desenvolvimento
+• Integrações básicas
+• Testes e ajustes
+• Treinamento
+
+🏗️ **SISTEMA COMPLEXO** → 8-16 semanas
+• Arquitetura escalável
+• Múltiplas integrações
+• Desenvolvimento ágil
+• Documentação completa
+
+🤖 **SOLUÇÕES COM IA** → 4-12 semanas
+• Treinamento de modelos
+• Integração de APIs
+• Testes de precisão
+• Ajustes iterativos
+
+*📅 Trabalhamos com sprints de 2 semanas e entregas parciais.*`,
+
+            "contato": `📞 **CONTATO & LOCALIZAÇÃO**
+
+📍 **ENDEREÇO**
+MakerAI Studio
+São Paulo, SP - Brasil
+
+📧 **E-MAIL**
+contato@makerai.studio
+comercial@makerai.studio
+suporte@makerai.studio
+
+📱 **TELEFONE/WHATSAPP**
+(11) 99999-9999
+
+⏰ **HORÁRIO DE ATENDIMENTO**
+Segunda a Sexta: 9h às 18h
+Sábado: 9h às 13h (apenas emergências)
+
+💬 **FORMULÁRIO**
+Disponível no final do nosso site!
+
+🌐 **REDES SOCIAIS**
+• LinkedIn: /makerai-studio
+• Instagram: @makerai.studio
+• GitHub: /makerai-studio
+
+*Agende uma reunião sem compromisso!*`,
+
+            "ia": `🤖 **INTELIGÊNCIA ARTIFICIAL**
+
+🔧 **TECNOLOGIAS QUE USAMOS**
+• OpenAI GPT & Assistants API
+• Google Gemini & Vertex AI
+• Anthropic Claude
+• LangChain & LlamaIndex
+• Hugging Face transformers
+• Custom ML models
+
+🎯 **APLICAÇÕES PRÁTICAS**
+1. **Atendimento ao Cliente**
+   - Chatbots 24/7
+   - Triagem automática
+   - Respostas personalizadas
+
+2. **Vendas & Marketing**
+   - Lead scoring com IA
+   - Recomendações de produtos
+   - Copywriting automatizado
+
+3. **Operações**
+   - Processamento de documentos
+   - Extração de dados
+   - Análise de sentimentos
+
+4. **Desenvolvimento**
+   - Code generation
+   - Debug automático
+   - Otimização de performance
+
+💡 **CASES DE SUCESSO**
+• +40% conversões com chatbot de vendas
+• -60% tempo de atendimento
+• +300% engajamento com recomendações IA
+
+*Tem um desafio específico? Vamos conversar!*`,
+
+            "aplicativos": `📱 **APLICATIVOS MÓVEIS**
+
+✅ **SIM, DESENVOLVEMOS APPS!**
+
+🚀 **TECNOLOGIAS**
+• **React Native** - Apps nativos para iOS e Android
+• **Flutter** - Performance excelente
+• **PWAs** - Apps web progressivos (não precisa de loja)
+• **Ionic/Capacitor** - Híbridos com acesso nativo
+
+🎯 **TIPOS DE APPS**
+1. **E-commerce móvel**
+   - Catálogo de produtos
+   - Carrinho e checkout
+   - Notificações push
+
+2. **Apps corporativos**
+   - CRM móvel
+   - Dashboards em tempo real
+   - Ferramentas de campo
+
+3. **Soluções específicas**
+   - Apps de saúde (agendamento, prontuário)
+   - Educação (cursos, gamificação)
+   - Logística (rastreamento, entregas)
+
+💰 **INVESTIMENTO**
+• App simples: R$ 20.000 - R$ 50.000
+• App médio: R$ 50.000 - R$ 120.000
+• App complexo: R$ 120.000+
+
+⏰ **PRAZOS**
+• MVP: 4-8 semanas
+• App completo: 12-24 semanas
+
+*Tem uma ideia de app? Vamos validar juntos!*`,
+
+            "suporte": `🛡️ **SUPORTE & MANUTENÇÃO**
+
+✅ **OFERECEMOS SUPORTE COMPLETO!**
+
+📋 **PLANOS DISPONÍVEIS**
+
+🔹 **PLANO BÁSICO** (R$ 500/mês)
+• Monitoramento do site
+• Backup semanal
+• Atualizações de segurança
+• Suporte por email (48h)
+
+🔹 **PLANO PROFISSIONAL** (R$ 1.500/mês)
+• Tudo do plano básico +
+• Suporte por WhatsApp (24h)
+• Otimizações mensais
+• Relatórios de performance
+• 2h de alterações/mês
+
+🔹 **PLANO ENTERPRISE** (R$ 3.000+/mês)
+• Tudo do plano profissional +
+• Suporte 24/7
+• Desenvolvimento contínuo
+• Consultoria estratégica
+• SLA garantido
+
+🛠️ **O QUE INCLUI**
+• Correção de bugs
+• Atualização de plugins/bibliotecas
+• Otimização de performance
+• Segurança e backup
+• Treinamento da equipe
+
+📞 **CANAL DE SUPORTE**
+Email: suporte@makerai.studio
+WhatsApp: (11) 99999-9999
+Portal do cliente: clientes.makerai.studio
+
+*Primeiro mês de suporte gratuito em todos os planos!*`,
+
+            "portfolio": `🎨 **PORTFÓLIO & CASES**
+
+🚀 **PROJETOS DESTAQUE**
+
+1. **AHA Academy** 📚
+   • Plataforma de EAD com gamificação
+   • PWA com funcionalidades offline
+   • Sistema de recompensas e trilhas
+   • **Resultado**: +300% engajamento
+
+2. **Santuário Emocional** 🌿
+   • App de bem-estar e mindfulness
+   • Diário digital com IA
+   • Animações terapêuticas
+   • **Resultado**: 4.8★ na App Store
+
+3. **E-commerce Fashion** 👗
+   • Visualizador 3D de produtos
+   • Realidade aumentada (experimentador virtual)
+   • Sistema de recomendação com IA
+   • **Resultado**: +40% conversões
+
+4. **Dashboard 3D Corporativo** 📊
+   • Monitoramento em tempo real
+   • Visualização 3D de dados
+   • Alertas inteligentes
+   • **Resultado**: -35% tempo de análise
+
+5. **Consultor IA Jurídico** ⚖️
+   • Análise automática de contratos
+   • Extração de cláusulas importantes
+   • Comparativo com jurisprudência
+   • **Resultado**: +80% eficiência
+
+🖼️ **VISITE NOSSO PORTFÓLIO**
+Veja mais projetos em: makerai.studio/portfolio
+
+💼 **CLIENTES**
+Startups, PMEs e grandes empresas dos setores:
+• Educação • Saúde • E-commerce • Financeiro • Jurídico
+
+*Quer ver cases do seu setor? Peça por email!*`,
+
+            "default": `👋 **OLÁ! SOU O ASSISTENTE DA MAKERAI STUDIO**
+
+Parece que não entendi completamente sua pergunta. 😊
+
+**POSSO AJUDAR COM:**
+• Informações sobre nossos serviços
+• Orçamentos e prazos
+• Casos de sucesso (portfolio)
+• Tecnologias que usamos
+• Agendamento de reuniões
+
+**TENTE PERGUNTAR DE OUTRA FORMA OU ESCOLHA UMA DAS OPÇÕES:**
+
+🤖 *"Quais serviços de IA vocês oferecem?"*
+💻 *"Fazem desenvolvimento de aplicativos?"*
+💰 *"Qual o custo para um site?"*
+⏰ *"Quanto tempo leva um projeto?"*
+
+Ou **entre em contato diretamente**:
+📧 contato@makerai.studio
+📱 (11) 99999-9999
+
+*Como posso te ajudar hoje?*`
+        };
+
+        const quickOptionsList = [
+            { question: "Quais serviços vocês oferecem?", icon: "fas fa-box", text: "Nossos serviços", key: "serviços" },
+            { question: "Qual é o custo médio de um projeto?", icon: "fas fa-money-bill-wave", text: "Orçamento", key: "preço" },
+            { question: "Quanto tempo leva para desenvolver um site?", icon: "fas fa-clock", text: "Prazos", key: "prazo" },
+            { question: "Como posso agendar uma demonstração?", icon: "fas fa-calendar-alt", text: "Agendar demo", key: "contato" },
+            { question: "Vocês trabalham com Inteligência Artificial?", icon: "fas fa-brain", text: "Tecnologias IA", key: "ia" },
+            { question: "Fazem desenvolvimento de aplicativos móveis?", icon: "fas fa-mobile-alt", text: "Apps móveis", key: "aplicativos" },
+            { question: "Oferecem suporte após o projeto?", icon: "fas fa-headset", text: "Suporte", key: "suporte" },
+            { question: "Tem algum portfólio para ver?", icon: "fas fa-images", text: "Portfólio", key: "portfolio" }
+        ];
+
+        // ============================================
+        // MEMÓRIA PERSISTENTE
+        // ============================================
+        function saveConversation() {
+            localStorage.setItem('makerai_conversation_history', JSON.stringify(conversationHistory));
+        }
+
+        function loadConversation() {
+            const saved = localStorage.getItem('makerai_conversation_history');
+            if (saved) {
+                conversationHistory = JSON.parse(saved);
+                messagesContainer.innerHTML = '';
+                conversationHistory.forEach(msg => {
+                    if (msg.role === 'user') addMessage(msg.content, 'user');
+                    else if (msg.role === 'assistant') addMessage(msg.content, 'ai');
+                });
+                scrollToBottom();
+                return true;
+            }
+            return false;
+        }
+
+        // ============================================
+        // UI E MENSAGENS
+        // ============================================
+        function addMessage(text, sender, isQuickOption = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', `${sender}-message`);
+            if (isQuickOption) {
+                messageDiv.innerHTML = `<em>${text}</em>`;
+            } else {
+                const formattedText = text
+                    .replace(/\n/g, '<br>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+                messageDiv.innerHTML = formattedText;
+            }
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('typing-indicator');
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = '<span></span><span></span><span></span>';
+            messagesContainer.appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+        }
+
+        function scrollToBottom() {
+            requestAnimationFrame(() => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            });
+        }
+
+        // ============================================
+        // INTELIGÊNCIA LOCAL - SEM API
+        // ============================================
+        function getLocalAIResponse(userMessage) {
+            console.log("🤖 Processando localmente:", userMessage);
+            
+            const lowerMsg = userMessage.toLowerCase();
+            
+            // Procura por palavras-chave
+            for (const [key, response] of Object.entries(knowledgeBase)) {
+                const keywords = key.split(' ').filter(k => k.length > 2);
+                
+                // Verifica se alguma palavra-chave está na mensagem
+                const hasKeyword = keywords.some(keyword => 
+                    lowerMsg.includes(keyword.toLowerCase())
+                );
+                
+                // Verifica também por sinônimos
+                const synonyms = {
+                    "preço": ["custo", "valor", "quanto custa", "orçamento", "investimento"],
+                    "prazo": ["tempo", "quando fica pronto", "demora", "entregar"],
+                    "contato": ["falar", "email", "telefone", "whatsapp", "agendar", "reunião"],
+                    "ia": ["inteligência artificial", "machine learning", "chatbot", "bot"],
+                    "aplicativos": ["app", "aplicativo", "mobile", "celular", "ios", "android"],
+                    "suporte": ["manutenção", "garantia", "ajuda", "suporte técnico"],
+                    "portfolio": ["trabalhos", "projetos", "cases", "clientes"],
+                    "serviços": ["fazem", "oferecem", "trabalham", "áreas", "especialidades"]
+                };
+                
+                let found = hasKeyword;
+                
+                // Verifica sinônimos
+                if (synonyms[key]) {
+                    found = found || synonyms[key].some(synonym => 
+                        lowerMsg.includes(synonym)
+                    );
+                }
+                
+                // Verifica perguntas diretas das quick options
+                const matchingQuickOption = quickOptionsList.find(option => 
+                    option.question.toLowerCase() === userMessage.toLowerCase() || 
+                    option.text.toLowerCase() === userMessage.toLowerCase()
+                );
+                
+                if (matchingQuickOption) {
+                    console.log("✅ Encontrada quick option:", matchingQuickOption.key);
+                    return knowledgeBase[matchingQuickOption.key] || knowledgeBase.default;
+                }
+                
+                if (found) {
+                    console.log("✅ Encontrada resposta para:", key);
+                    return response;
+                }
+            }
+            
+            // Se não encontrou, usa resposta padrão
+            console.log("⚠️ Usando resposta padrão");
+            return knowledgeBase.default;
+        }
+
+        // ============================================
+        // OPÇÕES RÁPIDAS E CARROSSEL
+        // ============================================
+        function initQuickOptions() {
+            quickOptionsCarousel.innerHTML = '';
+            carouselIndicators.innerHTML = '';
+
+            quickOptionsList.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'quick-option';
+                button.innerHTML = `<i class="${option.icon}"></i> ${option.text}`;
+                button.setAttribute('data-question', option.question);
+                button.setAttribute('data-key', option.key);
+                button.setAttribute('data-index', index);
+                quickOptionsCarousel.appendChild(button);
+            });
+
+            const visibleItems = calculateVisibleItems();
+            for (let i = 0; i < Math.ceil(quickOptionsList.length / visibleItems); i++) {
+                const indicator = document.createElement('button');
+                indicator.className = `carousel-indicator ${i === 0 ? 'active' : ''}`;
+                indicator.setAttribute('data-slide', i);
+                indicator.setAttribute('aria-label', `Ir para slide ${i + 1}`);
+                indicator.addEventListener('click', () => goToSlide(i));
+                carouselIndicators.appendChild(indicator);
+            }
+
+            initQuickOptionsEvents();
+            startCarouselAutoScroll();
+        }
+
+        function calculateVisibleItems() {
+            if (window.innerWidth < 768) return 2;
+            else if (window.innerWidth < 1024) return 3;
+            else return 4;
+        }
+
+        function initQuickOptionsEvents() {
+            const quickOptions = document.querySelectorAll('.quick-option');
+            quickOptions.forEach(option => {
+                option.addEventListener('click', handleQuickOptionClick);
+                option.addEventListener('touchstart', () => { option.style.transform = 'scale(0.98)'; });
+                option.addEventListener('touchend', () => { option.style.transform = ''; });
+            });
+        }
+
+        function startCarouselAutoScroll() {
+            if (carouselInterval) clearInterval(carouselInterval);
+            carouselInterval = setInterval(() => {
+                const visibleItems = calculateVisibleItems();
+                const totalSlides = Math.ceil(quickOptionsList.length / visibleItems);
+                if (totalSlides > 1) {
+                    currentCarouselIndex = (currentCarouselIndex + 1) % totalSlides;
+                    goToSlide(currentCarouselIndex);
+                }
+            }, 5000);
+        }
+
+        function goToSlide(slideIndex) {
+            const visibleItems = calculateVisibleItems();
+            const totalSlides = Math.ceil(quickOptionsList.length / visibleItems);
+            if (slideIndex >= totalSlides) slideIndex = 0;
+            if (slideIndex < 0) slideIndex = totalSlides - 1;
+            currentCarouselIndex = slideIndex;
+
+            const carouselWidth = quickOptionsCarousel.offsetWidth;
+            const itemWidth = quickOptionsCarousel.children[0].offsetWidth + 8;
+            const scrollPosition = slideIndex * visibleItems * itemWidth;
+
+            quickOptionsCarousel.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+            updateCarouselIndicators(slideIndex);
+            if (carouselInterval) clearInterval(carouselInterval);
+            setTimeout(startCarouselAutoScroll, 5000);
+        }
+
+        function updateCarouselIndicators(activeIndex) {
+            const indicators = carouselIndicators.querySelectorAll('.carousel-indicator');
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === activeIndex);
+            });
+        }
+
+        function handleQuickOptionClick(e) {
+            const question = this.dataset.question;
+            assistantInput.value = question;
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const msg = assistantInput.value.trim();
+            if (msg) {
+                processUserMessage(msg);
+                assistantInput.value = '';
+            }
+        }
+
+        // ============================================
+        // PROCESSAMENTO DE MENSAGENS
+        // ============================================
+        async function processUserMessage(userMessage) {
+            if (isProcessing || !userMessage.trim()) return;
+            isProcessing = true;
+
+            assistantInput.disabled = true;
+            sendAssistantBtn.disabled = true;
+            assistantInput.classList.add('loading');
+
+            addMessage(userMessage, 'user');
+            conversationHistory.push({ role: "user", content: userMessage });
+            saveConversation();
+
+            showTypingIndicator();
+
+            // Simula processamento
+            setTimeout(() => {
+                const response = getLocalAIResponse(userMessage);
+                
+                hideTypingIndicator();
+                addMessage(response, 'ai');
+                conversationHistory.push({ role: "assistant", content: response });
+                saveConversation();
+
+                assistantInput.disabled = false;
+                sendAssistantBtn.disabled = false;
+                assistantInput.classList.remove('loading');
+                isProcessing = false;
+
+                setTimeout(() => assistantInput.focus(), 100);
+            }, 800); // Delay para parecer mais natural
+        }
+
+        // ============================================
+        // EVENTOS E COMUNICAÇÃO
+        // ============================================
+        function toggleAssistantPanel() {
+            const isOpen = assistantPanel.classList.toggle('open');
+            assistantPanel.setAttribute('aria-hidden', !isOpen);
+            if (window.innerWidth < 768) {
+                backBtn.style.display = isOpen ? 'flex' : 'none';
+            }
+            if (isOpen) {
+                setTimeout(() => {
+                    assistantInput.focus();
+                    scrollToBottom();
+                    if (!carouselInterval) startCarouselAutoScroll();
+                }, 300);
+            } else {
+                if (carouselInterval) clearInterval(carouselInterval);
+            }
+        }
+
+        closeAssistant.addEventListener('click', () => {
+            window.parent.postMessage({ type: 'CLOSE_ASSISTANT' }, '*');
+        });
+
+        backBtn.addEventListener('click', () => {
+            window.parent.postMessage({ type: 'CLOSE_ASSISTANT' }, '*');
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && assistantPanel.classList.contains('open')) {
+                window.parent.postMessage({ type: 'CLOSE_ASSISTANT' }, '*');
+            }
+        });
+
+        assistantInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        sendAssistantBtn.addEventListener('click', sendMessage);
+
+        window.addEventListener('message', (event) => {
+            const data = event.data;
+            if (data?.type === 'OPEN_ASSISTANT') {
+                toggleAssistantPanel();
+                if (data.data?.question) {
+                    setTimeout(() => processUserMessage(data.data.question), 600);
+                }
+            }
+            if (data?.type === 'SEND_MESSAGE' && data.data?.message) {
+                processUserMessage(data.data.message);
+            }
+            if (data?.type === 'RESET_CONVERSATION') {
+                conversationHistory = [];
+                localStorage.removeItem('makerai_conversation_history');
+                messagesContainer.innerHTML = '';
+                addMessage("Conversa reiniciada! Como posso ajudar você agora?", 'ai');
+            }
+            if (data?.type === 'PING') {
+                window.parent.postMessage({ type: 'ASSISTANT_READY' }, '*');
+            }
+        });
+
+        function handleResize() {
+            const visibleItems = calculateVisibleItems();
+            const totalSlides = Math.ceil(quickOptionsList.length / visibleItems);
+            carouselIndicators.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const indicator = document.createElement('button');
+                indicator.className = `carousel-indicator ${i === currentCarouselIndex ? 'active' : ''}`;
+                indicator.setAttribute('data-slide', i);
+                indicator.addEventListener('click', () => goToSlide(i));
+                carouselIndicators.appendChild(indicator);
+            }
+            goToSlide(currentCarouselIndex);
+            if (carouselInterval) {
+                clearInterval(carouselInterval);
+                startCarouselAutoScroll();
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        // ============================================
+        // INICIALIZAÇÃO
+        // ============================================
+        function init() {
+            console.log("🚀 Assistente LOCAL inicializado (sem API)");
+            
+            initQuickOptions();
+            
+            const hasSavedConversation = loadConversation();
+            
+            if (!hasSavedConversation) {
+                addMessage(`👋 **OLÁ! SOU O ASSISTENTE DA MAKERAI STUDIO** 🚀
+
+Estou aqui para ajudar você a entender como podemos transformar seu negócio com tecnologia!
+
+**POSSO TE AJUDAR COM:**
+🤖 Informações sobre nossos serviços de IA
+💻 Desenvolvimento de sites e aplicativos
+💰 Orçamentos e planos de investimento
+⏰ Prazos de entrega e metodologia
+🎨 Cases de sucesso e portfólio
+🛡️ Planos de suporte e manutenção
+
+**USE AS OPÇÕES RÁPIDAS** ⚡ ou **faça sua pergunta**!
+
+*Como posso te ajudar hoje?*`, 'ai');
+            }
+            
+            // Informa que está pronto
+            setTimeout(() => {
+                window.parent.postMessage({ 
+                    type: 'ASSISTANT_READY',
+                    mode: 'local' 
+                }, '*');
+            }, 500);
+            
+            console.log("✅ Assistente local pronto para uso!");
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
