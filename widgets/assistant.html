@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -76,7 +75,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="assistant-panel" id="assistantPanel" aria-hidden="true" role="dialog" aria-label="Painel do Assistente IA" aria-modal="true">
         <div class="chat-header">
@@ -125,18 +123,326 @@
         let carouselInterval;
         let currentCarouselIndex = 0;
 
-        const OPENROUTER_API_KEY = "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";
-        const MODEL = "nex-agi/deepseek-v3.1-nex-n1:free";
+        // ============================================
+        // BASE DE CONHECIMENTO LOCAL
+        // ============================================
+        const knowledgeBase = {
+            // Serviços
+            "serviços": `🚀 **SERVIÇOS MAKERAI STUDIO**
+
+🤖 **Assistentes & IA**
+• Chatbots inteligentes para atendimento
+• Avatares 3D com personalidade
+• Análise de dados com machine learning
+• Automação de processos com IA
+
+💻 **Web & PWAs**
+• Sites progressivos (PWAs) com performance nativa
+• E-commerce otimizado para conversão
+• Sistemas web responsivos
+• Aplicações single-page (SPA)
+
+⚡ **Automações & RPA**
+• Bots para tarefas repetitivas
+• Integração entre sistemas (API)
+• Web scraping inteligente
+• Processamento de documentos
+
+🎨 **Design & 3D**
+• Modelagem 3D de produtos
+• Realidade aumentada (AR) para e-commerce
+• Visualizações interativas
+• Animções e microinterações
+
+📊 **Sistemas & Dashboards**
+• Painéis de controle em tempo real
+• Análise de dados e business intelligence
+• Sistemas de gestão customizados
+• APIs RESTful e GraphQL
+
+🔍 **Marketing & SEO**
+• Estratégia de conteúdo para IA
+• SEO técnico avançado
+• Copywriting otimizado
+• Análise de concorrência
+
+*Qual área te interessa mais?*`,
+
+            "preço": `💰 **INVESTIMENTO**
+
+📍 **NÍVEL BÁSICO** (R$ 5.000 - R$ 15.000)
+• Landing pages otimizadas
+• Sites institucionais
+• Blog corporativo
+• SEO básico
+
+📍 **NÍVEL INTERMEDIÁRIO** (R$ 15.000 - R$ 50.000)
+• E-commerce completo
+• Sistemas web com dashboard
+• PWAs com funcionalidades offline
+• Automações simples
+
+📍 **NÍVEL AVANÇADO** (R$ 50.000 - R$ 150.000+)
+• Plataformas complexas com IA
+• Sistemas de recomendação
+• Processamento de linguagem natural
+• Soluções empresariais escaláveis
+
+📍 **MANUTENÇÃO** (R$ 500 - R$ 5.000/mês)
+• Suporte técnico 24/7
+• Atualizações de segurança
+• Otimização contínua
+• Backup e monitoramento
+
+*💡 Oferecemos parcelamento e planos personalizados!*`,
+
+            "prazo": `⏰ **PRAZOS DE ENTREGA**
+
+⚡ **PROTÓTIPO RÁPIDO** → 1-2 semanas
+• Validação de conceito
+• MVP funcional
+• Testes de usabilidade
+
+🔄 **PROJETO PADRÃO** → 4-8 semanas
+• Design e desenvolvimento
+• Integrações básicas
+• Testes e ajustes
+• Treinamento
+
+🏗️ **SISTEMA COMPLEXO** → 8-16 semanas
+• Arquitetura escalável
+• Múltiplas integrações
+• Desenvolvimento ágil
+• Documentação completa
+
+🤖 **SOLUÇÕES COM IA** → 4-12 semanas
+• Treinamento de modelos
+• Integração de APIs
+• Testes de precisão
+• Ajustes iterativos
+
+*📅 Trabalhamos com sprints de 2 semanas e entregas parciais.*`,
+
+            "contato": `📞 **CONTATO & LOCALIZAÇÃO**
+
+📍 **ENDEREÇO**
+MakerAI Studio
+São Paulo, SP - Brasil
+
+📧 **E-MAIL**
+contato@makerai.studio
+comercial@makerai.studio
+suporte@makerai.studio
+
+📱 **TELEFONE/WHATSAPP**
+(11) 99999-9999
+
+⏰ **HORÁRIO DE ATENDIMENTO**
+Segunda a Sexta: 9h às 18h
+Sábado: 9h às 13h (apenas emergências)
+
+💬 **FORMULÁRIO**
+Disponível no final do nosso site!
+
+🌐 **REDES SOCIAIS**
+• LinkedIn: /makerai-studio
+• Instagram: @makerai.studio
+• GitHub: /makerai-studio
+
+*Agende uma reunião sem compromisso!*`,
+
+            "ia": `🤖 **INTELIGÊNCIA ARTIFICIAL**
+
+🔧 **TECNOLOGIAS QUE USAMOS**
+• OpenAI GPT & Assistants API
+• Google Gemini & Vertex AI
+• Anthropic Claude
+• LangChain & LlamaIndex
+• Hugging Face transformers
+• Custom ML models
+
+🎯 **APLICAÇÕES PRÁTICAS**
+1. **Atendimento ao Cliente**
+   - Chatbots 24/7
+   - Triagem automática
+   - Respostas personalizadas
+
+2. **Vendas & Marketing**
+   - Lead scoring com IA
+   - Recomendações de produtos
+   - Copywriting automatizado
+
+3. **Operações**
+   - Processamento de documentos
+   - Extração de dados
+   - Análise de sentimentos
+
+4. **Desenvolvimento**
+   - Code generation
+   - Debug automático
+   - Otimização de performance
+
+💡 **CASES DE SUCESSO**
+• +40% conversões com chatbot de vendas
+• -60% tempo de atendimento
+• +300% engajamento com recomendações IA
+
+*Tem um desafio específico? Vamos conversar!*`,
+
+            "aplicativos": `📱 **APLICATIVOS MÓVEIS**
+
+✅ **SIM, DESENVOLVEMOS APPS!**
+
+🚀 **TECNOLOGIAS**
+• **React Native** - Apps nativos para iOS e Android
+• **Flutter** - Performance excelente
+• **PWAs** - Apps web progressivos (não precisa de loja)
+• **Ionic/Capacitor** - Híbridos com acesso nativo
+
+🎯 **TIPOS DE APPS**
+1. **E-commerce móvel**
+   - Catálogo de produtos
+   - Carrinho e checkout
+   - Notificações push
+
+2. **Apps corporativos**
+   - CRM móvel
+   - Dashboards em tempo real
+   - Ferramentas de campo
+
+3. **Soluções específicas**
+   - Apps de saúde (agendamento, prontuário)
+   - Educação (cursos, gamificação)
+   - Logística (rastreamento, entregas)
+
+💰 **INVESTIMENTO**
+• App simples: R$ 20.000 - R$ 50.000
+• App médio: R$ 50.000 - R$ 120.000
+• App complexo: R$ 120.000+
+
+⏰ **PRAZOS**
+• MVP: 4-8 semanas
+• App completo: 12-24 semanas
+
+*Tem uma ideia de app? Vamos validar juntos!*`,
+
+            "suporte": `🛡️ **SUPORTE & MANUTENÇÃO**
+
+✅ **OFERECEMOS SUPORTE COMPLETO!**
+
+📋 **PLANOS DISPONÍVEIS**
+
+🔹 **PLANO BÁSICO** (R$ 500/mês)
+• Monitoramento do site
+• Backup semanal
+• Atualizações de segurança
+• Suporte por email (48h)
+
+🔹 **PLANO PROFISSIONAL** (R$ 1.500/mês)
+• Tudo do plano básico +
+• Suporte por WhatsApp (24h)
+• Otimizações mensais
+• Relatórios de performance
+• 2h de alterações/mês
+
+🔹 **PLANO ENTERPRISE** (R$ 3.000+/mês)
+• Tudo do plano profissional +
+• Suporte 24/7
+• Desenvolvimento contínuo
+• Consultoria estratégica
+• SLA garantido
+
+🛠️ **O QUE INCLUI**
+• Correção de bugs
+• Atualização de plugins/bibliotecas
+• Otimização de performance
+• Segurança e backup
+• Treinamento da equipe
+
+📞 **CANAL DE SUPORTE**
+Email: suporte@makerai.studio
+WhatsApp: (11) 99999-9999
+Portal do cliente: clientes.makerai.studio
+
+*Primeiro mês de suporte gratuito em todos os planos!*`,
+
+            "portfolio": `🎨 **PORTFÓLIO & CASES**
+
+🚀 **PROJETOS DESTAQUE**
+
+1. **AHA Academy** 📚
+   • Plataforma de EAD com gamificação
+   • PWA com funcionalidades offline
+   • Sistema de recompensas e trilhas
+   • **Resultado**: +300% engajamento
+
+2. **Santuário Emocional** 🌿
+   • App de bem-estar e mindfulness
+   • Diário digital com IA
+   • Animações terapêuticas
+   • **Resultado**: 4.8★ na App Store
+
+3. **E-commerce Fashion** 👗
+   • Visualizador 3D de produtos
+   • Realidade aumentada (experimentador virtual)
+   • Sistema de recomendação com IA
+   • **Resultado**: +40% conversões
+
+4. **Dashboard 3D Corporativo** 📊
+   • Monitoramento em tempo real
+   • Visualização 3D de dados
+   • Alertas inteligentes
+   • **Resultado**: -35% tempo de análise
+
+5. **Consultor IA Jurídico** ⚖️
+   • Análise automática de contratos
+   • Extração de cláusulas importantes
+   • Comparativo com jurisprudência
+   • **Resultado**: +80% eficiência
+
+🖼️ **VISITE NOSSO PORTFÓLIO**
+Veja mais projetos em: makerai.studio/portfolio
+
+💼 **CLIENTES**
+Startups, PMEs e grandes empresas dos setores:
+• Educação • Saúde • E-commerce • Financeiro • Jurídico
+
+*Quer ver cases do seu setor? Peça por email!*`,
+
+            "default": `👋 **OLÁ! SOU O ASSISTENTE DA MAKERAI STUDIO**
+
+Parece que não entendi completamente sua pergunta. 😊
+
+**POSSO AJUDAR COM:**
+• Informações sobre nossos serviços
+• Orçamentos e prazos
+• Casos de sucesso (portfolio)
+• Tecnologias que usamos
+• Agendamento de reuniões
+
+**TENTE PERGUNTAR DE OUTRA FORMA OU ESCOLHA UMA DAS OPÇÕES:**
+
+🤖 *"Quais serviços de IA vocês oferecem?"*
+💻 *"Fazem desenvolvimento de aplicativos?"*
+💰 *"Qual o custo para um site?"*
+⏰ *"Quanto tempo leva um projeto?"*
+
+Ou **entre em contato diretamente**:
+📧 contato@makerai.studio
+📱 (11) 99999-9999
+
+*Como posso te ajudar hoje?*`
+        };
 
         const quickOptionsList = [
-            { question: "Quais serviços vocês oferecem?", icon: "fas fa-box", text: "Nossos serviços" },
-            { question: "Qual é o custo médio de um projeto?", icon: "fas fa-money-bill-wave", text: "Orçamento" },
-            { question: "Quanto tempo leva para desenvolver um site?", icon: "fas fa-clock", text: "Prazos" },
-            { question: "Como posso agendar uma demonstração?", icon: "fas fa-calendar-alt", text: "Agendar demo" },
-            { question: "Vocês trabalham com Inteligência Artificial?", icon: "fas fa-brain", text: "Tecnologias IA" },
-            { question: "Fazem desenvolvimento de aplicativos móveis?", icon: "fas fa-mobile-alt", text: "Apps móveis" },
-            { question: "Oferecem suporte após o projeto?", icon: "fas fa-headset", text: "Suporte" },
-            { question: "Tem algum portfólio para ver?", icon: "fas fa-images", text: "Portfólio" }
+            { question: "Quais serviços vocês oferecem?", icon: "fas fa-box", text: "Nossos serviços", key: "serviços" },
+            { question: "Qual é o custo médio de um projeto?", icon: "fas fa-money-bill-wave", text: "Orçamento", key: "preço" },
+            { question: "Quanto tempo leva para desenvolver um site?", icon: "fas fa-clock", text: "Prazos", key: "prazo" },
+            { question: "Como posso agendar uma demonstração?", icon: "fas fa-calendar-alt", text: "Agendar demo", key: "contato" },
+            { question: "Vocês trabalham com Inteligência Artificial?", icon: "fas fa-brain", text: "Tecnologias IA", key: "ia" },
+            { question: "Fazem desenvolvimento de aplicativos móveis?", icon: "fas fa-mobile-alt", text: "Apps móveis", key: "aplicativos" },
+            { question: "Oferecem suporte após o projeto?", icon: "fas fa-headset", text: "Suporte", key: "suporte" },
+            { question: "Tem algum portfólio para ver?", icon: "fas fa-images", text: "Portfólio", key: "portfolio" }
         ];
 
         // ============================================
@@ -201,6 +507,66 @@
         }
 
         // ============================================
+        // INTELIGÊNCIA LOCAL - SEM API
+        // ============================================
+        function getLocalAIResponse(userMessage) {
+            console.log("🤖 Processando localmente:", userMessage);
+            
+            const lowerMsg = userMessage.toLowerCase();
+            
+            // Procura por palavras-chave
+            for (const [key, response] of Object.entries(knowledgeBase)) {
+                const keywords = key.split(' ').filter(k => k.length > 2);
+                
+                // Verifica se alguma palavra-chave está na mensagem
+                const hasKeyword = keywords.some(keyword => 
+                    lowerMsg.includes(keyword.toLowerCase())
+                );
+                
+                // Verifica também por sinônimos
+                const synonyms = {
+                    "preço": ["custo", "valor", "quanto custa", "orçamento", "investimento"],
+                    "prazo": ["tempo", "quando fica pronto", "demora", "entregar"],
+                    "contato": ["falar", "email", "telefone", "whatsapp", "agendar", "reunião"],
+                    "ia": ["inteligência artificial", "machine learning", "chatbot", "bot"],
+                    "aplicativos": ["app", "aplicativo", "mobile", "celular", "ios", "android"],
+                    "suporte": ["manutenção", "garantia", "ajuda", "suporte técnico"],
+                    "portfolio": ["trabalhos", "projetos", "cases", "clientes"],
+                    "serviços": ["fazem", "oferecem", "trabalham", "áreas", "especialidades"]
+                };
+                
+                let found = hasKeyword;
+                
+                // Verifica sinônimos
+                if (synonyms[key]) {
+                    found = found || synonyms[key].some(synonym => 
+                        lowerMsg.includes(synonym)
+                    );
+                }
+                
+                // Verifica perguntas diretas das quick options
+                const matchingQuickOption = quickOptionsList.find(option => 
+                    option.question.toLowerCase() === userMessage.toLowerCase() || 
+                    option.text.toLowerCase() === userMessage.toLowerCase()
+                );
+                
+                if (matchingQuickOption) {
+                    console.log("✅ Encontrada quick option:", matchingQuickOption.key);
+                    return knowledgeBase[matchingQuickOption.key] || knowledgeBase.default;
+                }
+                
+                if (found) {
+                    console.log("✅ Encontrada resposta para:", key);
+                    return response;
+                }
+            }
+            
+            // Se não encontrou, usa resposta padrão
+            console.log("⚠️ Usando resposta padrão");
+            return knowledgeBase.default;
+        }
+
+        // ============================================
         // OPÇÕES RÁPIDAS E CARROSSEL
         // ============================================
         function initQuickOptions() {
@@ -212,6 +578,7 @@
                 button.className = 'quick-option';
                 button.innerHTML = `<i class="${option.icon}"></i> ${option.text}`;
                 button.setAttribute('data-question', option.question);
+                button.setAttribute('data-key', option.key);
                 button.setAttribute('data-index', index);
                 quickOptionsCarousel.appendChild(button);
             });
@@ -239,11 +606,9 @@
         function initQuickOptionsEvents() {
             const quickOptions = document.querySelectorAll('.quick-option');
             quickOptions.forEach(option => {
-                const newOption = option.cloneNode(true);
-                option.parentNode.replaceChild(newOption, option);
-                newOption.addEventListener('click', handleQuickOptionClick);
-                newOption.addEventListener('touchstart', () => { newOption.style.transform = 'scale(0.98)'; });
-                newOption.addEventListener('touchend', () => { newOption.style.transform = ''; });
+                option.addEventListener('click', handleQuickOptionClick);
+                option.addEventListener('touchstart', () => { option.style.transform = 'scale(0.98)'; });
+                option.addEventListener('touchend', () => { option.style.transform = ''; });
             });
         }
 
@@ -298,50 +663,8 @@
         }
 
         // ============================================
-        // API DEEPSEEK
+        // PROCESSAMENTO DE MENSAGENS
         // ============================================
-        async function callDeepSeek(userMessage) {
-            try {
-                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-                        "HTTP-Referer": window.location.href || "https://makerai.studio",
-                        "X-Title": "MakerAI Studio - Assistente IA"
-                    },
-                    body: JSON.stringify({
-                        model: MODEL,
-                        messages: [
-                            {
-                                role: "system",
-                                content: `Você é o assistente virtual da MakerAI Studio, uma agência brasileira especializada em IA, PWAs, automações RPA, avatares 3D e experiências digitais. 
-                                     Responda sempre em português, de forma amigável, profissional e útil. 
-                                     Ofereça ajuda com serviços, orçamentos, prazos, agendamentos e dúvidas técnicas.
-                                     Seja conciso e direto, especialmente em dispositivos móveis.`
-                            },
-                            ...conversationHistory,
-                            { role: "user", content: userMessage }
-                        ],
-                        temperature: 0.7,
-                        max_tokens: 800
-                    })
-                });
-
-                if (!response.ok) {
-                    const err = await response.json();
-                    console.error("Erro na API:", err);
-                    return "Desculpe, estou com um problema temporário. Tente novamente em alguns segundos.";
-                }
-
-                const data = await response.json();
-                return data.choices?.[0]?.message?.content || "Não consegui gerar uma resposta agora.";
-            } catch (error) {
-                console.error("Erro de rede:", error);
-                return "Ops! Não consegui me conectar à IA agora. Tente novamente.";
-            }
-        }
-
         async function processUserMessage(userMessage) {
             if (isProcessing || !userMessage.trim()) return;
             isProcessing = true;
@@ -356,19 +679,22 @@
 
             showTypingIndicator();
 
-            const response = await callDeepSeek(userMessage);
+            // Simula processamento
+            setTimeout(() => {
+                const response = getLocalAIResponse(userMessage);
+                
+                hideTypingIndicator();
+                addMessage(response, 'ai');
+                conversationHistory.push({ role: "assistant", content: response });
+                saveConversation();
 
-            hideTypingIndicator();
-            addMessage(response, 'ai');
-            conversationHistory.push({ role: "assistant", content: response });
-            saveConversation();
+                assistantInput.disabled = false;
+                sendAssistantBtn.disabled = false;
+                assistantInput.classList.remove('loading');
+                isProcessing = false;
 
-            assistantInput.disabled = false;
-            sendAssistantBtn.disabled = false;
-            assistantInput.classList.remove('loading');
-            isProcessing = false;
-
-            setTimeout(() => assistantInput.focus(), 100);
+                setTimeout(() => assistantInput.focus(), 100);
+            }, 800); // Delay para parecer mais natural
         }
 
         // ============================================
@@ -460,24 +786,39 @@
         // INICIALIZAÇÃO
         // ============================================
         function init() {
+            console.log("🚀 Assistente LOCAL inicializado (sem API)");
+            
             initQuickOptions();
-
+            
             const hasSavedConversation = loadConversation();
-
+            
             if (!hasSavedConversation) {
-                addMessage("👋 Olá! Eu sou o assistente virtual da MakerAI Studio. Posso ajudar com:\n\n• Informações sobre nossos serviços\n• Orçamentos e prazos\n• Agendamento de demonstrações\n• Dúvidas sobre IA e desenvolvimento\n\nComo posso ajudar você hoje?", 'ai');
-            }
+                addMessage(`👋 **OLÁ! SOU O ASSISTENTE DA MAKERAI STUDIO** 🚀
 
-            if (window.innerWidth < 768) {
-                assistantInput.setAttribute('inputmode', 'text');
-                assistantInput.setAttribute('enterkeyhint', 'send');
-            }
+Estou aqui para ajudar você a entender como podemos transformar seu negócio com tecnologia!
 
+**POSSO TE AJUDAR COM:**
+🤖 Informações sobre nossos serviços de IA
+💻 Desenvolvimento de sites e aplicativos
+💰 Orçamentos e planos de investimento
+⏰ Prazos de entrega e metodologia
+🎨 Cases de sucesso e portfólio
+🛡️ Planos de suporte e manutenção
+
+**USE AS OPÇÕES RÁPIDAS** ⚡ ou **faça sua pergunta**!
+
+*Como posso te ajudar hoje?*`, 'ai');
+            }
+            
+            // Informa que está pronto
             setTimeout(() => {
-                window.parent.postMessage({ type: 'ASSISTANT_READY' }, '*');
+                window.parent.postMessage({ 
+                    type: 'ASSISTANT_READY',
+                    mode: 'local' 
+                }, '*');
             }, 500);
-
-            console.log('🤖 Assistente MakerAI com memória persistente carregado e pronto!');
+            
+            console.log("✅ Assistente local pronto para uso!");
         }
 
         if (document.readyState === 'loading') {
@@ -487,5 +828,4 @@
         }
     </script>
 </body>
-
 </html>
