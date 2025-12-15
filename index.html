@@ -1,0 +1,3624 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5" />
+  <title>MakerAI Studio — Agência de IA e Experiências Digitais</title>
+  <meta name="description"
+    content="MakerAI Studio — soluções inteligentes em IA, web development, 3D e automações para educação, saúde e e-commerce. Protótipo profissional." />
+  <meta name="theme-color" content="#0d0d0f" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Google AdSense - COLOQUE SEU ID AQUI -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-SEU_ID_AQUI"
+    crossorigin="anonymous"></script>
+
+  <meta property="og:title" content="MakerAI Studio — Agência de IA e Experiências Digitais" />
+  <meta property="og:description"
+    content="Soluções inteligentes em IA, web development, 3D e automações. Protótipo profissional." />
+  <meta property="og:image"
+    content="https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=1200&q=80&auto=format&fit=crop" />
+  <style>
+    /* =========================
+       Mobile-first base styles
+       ========================= */
+    :root {
+      --radius: 14px;
+      --gap: clamp(12px, 3vw, 20px);
+      --container: min(1100px, 90vw);
+
+      /* Dark - COM GRADIENTE */
+      --bg-dark: linear-gradient(135deg, #000000 0%, #0a0a1a 30%, #1a0a2a 100%);
+      /* ALTERADO */
+      --card-dark: #121215;
+      --muted-dark: #a9a9b0;
+      --text-dark: #ececf1;
+      --accent-dark: #6d4aff;
+      --glass-dark: rgba(255, 255, 255, 0.03);
+
+      /* Light - COM GRADIENTE */
+      --bg-light: linear-gradient(135deg, #ffffff 0%, #f0f4ff 50%, #e6ecff 100%);
+      /* ALTERADO */
+      --card-light: #ffffff;
+      --muted-light: #6b7280;
+      --text-light: #0b0b0d;
+      --accent-light: #5b4bff;
+      --glass-light: rgba(11, 11, 13, 0.03);
+
+      /* runtime */
+      --bg: var(--bg-dark);
+      --card: var(--card-dark);
+      --muted: var(--muted-dark);
+      --text: var(--text-dark);
+      --accent: var(--accent-dark);
+      --glass: var(--glass-dark);
+    }
+
+    html[data-theme="light"] {
+      --bg: var(--bg-light);
+      --card: var(--card-light);
+      --muted: var(--muted-light);
+      --text: var(--text-light);
+      --accent: var(--accent-light);
+      --glass: var(--glass-light);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+      font-size: clamp(14px, 2vw, 16px)
+    }
+
+    /* Classes utilitárias */
+    .pill {
+      display: inline-block;
+      padding: 8px 16px;
+      background: var(--glass);
+      color: var(--text);
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none
+    }
+
+    .pill.small {
+      padding: 6px 12px;
+      font-size: 12px
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.95em
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0
+    }
+
+    /* Header fixed - MODIFICADO PARA MOBILE */
+    header {
+      position: fixed;
+      left: max(16px, 4vw);
+      right: max(16px, 4vw);
+      top: max(12px, 3vh);
+      z-index: 1200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      border-radius: 16px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* make space for fixed header */
+    .page-wrapper {
+      padding-top: 100px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    header h1 {
+      font-size: clamp(16px, 4vw, 20px);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin: 0
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      background: linear-gradient(135deg, rgba(109, 74, 255, 0.15), rgba(109, 74, 255, 0.08));
+      color: var(--accent);
+      border-radius: 100px;
+      font-weight: 800;
+      font-size: 12px;
+      border: 1px solid rgba(109, 74, 255, 0.2)
+    }
+
+    /* Navigation - SOMENTE DESKTOP */
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    nav ul {
+      display: none;
+      gap: clamp(8px, 2vw, 20px);
+      list-style: none;
+      align-items: center;
+      margin: 0;
+      padding: 0
+    }
+
+    @media (min-width:1024px) {
+      nav ul {
+        display: flex
+      }
+
+      .hamburger {
+        display: none !important
+      }
+    }
+
+    nav a {
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: clamp(13px, 1.5vw, 15px);
+      transition: color 0.2s
+    }
+
+    nav a:hover {
+      color: var(--text)
+    }
+
+    .cta-primary {
+      background: linear-gradient(135deg, var(--accent), #9b7bff);
+      padding: 14px 24px;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s, box-shadow 0.2s
+    }
+
+    .cta-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(109, 74, 255, 0.3)
+    }
+
+    /* mobile hamburger */
+    .hamburger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: var(--glass);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 12px;
+      transition: background 0.2s;
+      z-index: 1300;
+    }
+
+    .hamburger:hover {
+      background: rgba(255, 255, 255, 0.05)
+    }
+
+    .hamburger svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+      stroke: var(--text)
+    }
+
+    /* Controles desktop (só visíveis em telas grandes) */
+    .header-controls-desktop {
+      display: none
+    }
+
+    @media (min-width:1024px) {
+      .header-controls-desktop {
+        display: flex;
+        align-items: center;
+        gap: 12px
+      }
+    }
+
+    /* MOBILE NAV OVERLAY - AGORA COMPLETO COM TUDO */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      z-index: 1400;
+    }
+
+    .mobile-nav.active {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .mobile-nav .inner {
+      background: var(--card);
+      width: min(90%, 380px);
+      height: 100%;
+      padding: 28px;
+      box-shadow: -10px 0 60px rgba(0, 0, 0, 0.5);
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-nav.active .inner {
+      transform: translateX(0)
+    }
+
+    /* Cabeçalho do menu mobile */
+    .mobile-nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .mobile-nav-header .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mobile-nav-header h2 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    /* Lista de navegação mobile - CORREÇÃO SEMÂNTICA: Adicionado list-style:none e padding:0 para o UL */
+    .mobile-nav-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 24px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .mobile-nav-list li a {
+      /* CORRIGIDO para aplicar a <a> dentro de <li> */
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+
+    .mobile-nav-list li a:hover,
+    .mobile-nav-list li a.active {
+      background: var(--glass);
+      color: var(--accent);
+    }
+
+    .mobile-nav-list li a .icon {
+      /* CORRIGIDO para aplicar a <a> dentro de <li> */
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.7;
+    }
+
+    /* Seção de controles no menu mobile */
+    .mobile-nav-controls {
+      padding: 24px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .mobile-nav-controls h3 {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .mobile-controls-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    /* Botões de idioma e tema no menu mobile */
+    .mobile-lang-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 8px;
+      border-radius: 12px;
+      background: var(--glass);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mobile-lang-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+      transform: translateY(-2px);
+    }
+
+    .mobile-lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .mobile-lang-btn .flag {
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .mobile-lang-btn .code {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .mobile-theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      border-radius: 12px;
+      background: var(--glass);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+      grid-column: span 3;
+    }
+
+    .mobile-theme-toggle:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+      transform: translateY(-2px);
+    }
+
+    /* Footer do menu mobile */
+    .mobile-nav-footer {
+      padding-top: 24px;
+      margin-top: auto;
+      text-align: center;
+    }
+
+    .mobile-nav-footer .cta-primary {
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .mobile-nav-footer .small {
+      font-size: 12px;
+      color: var(--muted);
+      opacity: 0.7;
+    }
+
+    /* wrapper */
+    .wrap {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: clamp(20px, 5vw, 40px)
+    }
+
+    /* Hero */
+    .hero {
+      padding: clamp(20px, 5vw, 60px) 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(24px, 5vw, 40px);
+      align-items: center
+    }
+
+    @media (min-width:768px) {
+      .hero {
+        grid-template-columns: 1fr min(400px, 40%)
+      }
+    }
+
+    .hero h2 {
+      font-size: clamp(24px, 5vw, 40px);
+      margin-bottom: 16px;
+      line-height: 1.2;
+      font-weight: 800
+    }
+
+    .hero p {
+      color: var(--muted);
+      margin-bottom: 20px;
+      max-width: 52ch;
+      font-size: clamp(14px, 2vw, 18px)
+    }
+
+    /* Trecho CORRIGIDO */
+
+    .hero .kpis {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      /* REMOVEMOS: flex-wrap: wrap; */
+      /* Isso forçava a quebra de linha no mobile */
+      /* ADICIONAMOS: */
+      flex-direction: row;
+      /* Garante que fiquem sempre em linha */
+      justify-content: space-between;
+      /* Distribui o espaço entre os itens */
+    }
+
+    .kpi {
+      background: var(--card);
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+
+      /* CORRIGIMOS: */
+      flex-grow: 1;
+      /* Permite que o bloco cresça para preencher o espaço */
+      flex-shrink: 1;
+      /* Permite que o bloco encolha em telas pequenas */
+      flex-basis: 33.33%;
+      /* Define a largura ideal para 1/3 do container */
+
+      /* REMOVEMOS: min-width: 200px; */
+      /* Isso forçava a quebra de linha no mobile */
+      text-align: center;
+      /* Centraliza o texto dentro do KPI */
+    }
+
+    .kpi strong {
+      display: block;
+      font-size: clamp(20px, 3vw, 28px);
+      margin-bottom: 4px;
+      color: var(--accent)
+    }
+
+    .hero-card img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      object-position: center 27%;
+      border-radius: 16px;
+      margin-bottom: 16px
+    }
+
+    /* grid & cards */
+    section {
+      padding: clamp(40px, 8vw, 60px) 0
+    }
+
+    .section-title {
+      margin-bottom: clamp(24px, 5vw, 40px);
+      text-align: center
+    }
+
+    .section-title h3 {
+      font-size: clamp(24px, 4vw, 32px);
+      margin-bottom: 12px;
+      font-weight: 800
+    }
+
+    /* Grid padrão para desktop */
+    .grid {
+      display: grid;
+      gap: var(--gap);
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr))
+    }
+
+    /* Carrossel para cards em mobile - NOVO */
+    @media (max-width: 767px) {
+      .cards-carousel-container {
+        position: relative;
+        margin: 0 -16px;
+        padding: 0 16px;
+      }
+
+      .cards-carousel {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        padding: 8px 0 24px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        /* Firefox */
+      }
+
+      .cards-carousel::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari, Opera */
+      }
+
+      .cards-carousel .card {
+        flex: 0 0 calc(85vw - 32px);
+        max-width: calc(85vw - 32px);
+        scroll-snap-align: start;
+        margin: 0;
+      }
+
+      .carousel-indicators {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .carousel-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .carousel-indicator.active {
+        background: var(--accent);
+        transform: scale(1.2);
+      }
+
+      /* Esconde grid em mobile, mostra carrossel */
+      .grid.mobile-carousel {
+        display: none;
+      }
+
+      .cards-carousel-container+.grid {
+        display: none;
+      }
+
+      .cards-carousel-container {
+        display: block;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .cards-carousel-container {
+        display: none;
+      }
+
+      .grid.mobile-carousel {
+        display: grid;
+      }
+    }
+
+    .card {
+      background: var(--card);
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2)
+    }
+
+    .card img.card-thumb {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 20px
+    }
+
+    /* Botão Saiba Mais nos cards */
+    .card .card-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px
+    }
+
+    .card .saiba-mais {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 15px;
+      transition: gap 0.2s;
+      background: transparent;
+      border: none;
+      cursor: pointer
+    }
+
+    .card .saiba-mais:hover {
+      gap: 10px;
+    }
+
+    .card .saiba-mais:after {
+      content: "→";
+      transition: transform 0.2s
+    }
+
+    .card .saiba-mais:hover:after {
+      transform: translateX(4px)
+    }
+
+    /* Informative inline card (new) */
+    .info-card {
+      display: none;
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      align-items: start;
+      gap: 12px;
+    }
+
+    .info-card.open {
+      display: flex;
+      flex-direction: column;
+      animation: fadeInUp .28s ease both;
+    }
+
+    .info-card .info-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .info-card img {
+      width: 120px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.04)
+    }
+
+    .info-card h5 {
+      margin: 0 0 6px 0;
+      font-size: 16px;
+    }
+
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .info-card .info-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap
+    }
+
+    .info-card .close-info {
+      margin-left: auto;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--muted)
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* Botões gerais */
+    .btn {
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+      min-width: 48px;
+      transition: all 0.2s
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), #9b7bff);
+      color: #fff;
+      border: none
+    }
+
+    .btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(109, 74, 255, 0.3)
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--muted)
+    }
+
+    .btn.ghost:hover {
+      background: var(--glass);
+      color: var(--text)
+    }
+
+    .btn.secondary {
+      background: var(--glass);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.1)
+    }
+
+    .btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px)
+    }
+
+    /* Portfolio carousel */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      height: clamp(320px, 50vw, 500px);
+      margin-bottom: 20px
+    }
+
+    .carousel-inner {
+      display: flex;
+      transition: transform .6s cubic-bezier(.2, .9, .3, 1);
+      height: 100%
+    }
+
+    .carousel-item {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      flex: 0 0 100%
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .carousel-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.4), transparent);
+      padding: clamp(20px, 5vw, 40px);
+      color: white
+    }
+
+    .carousel-content h4 {
+      font-size: clamp(18px, 4vw, 28px);
+      margin-bottom: 8px;
+      font-weight: 800
+    }
+
+    .carousel-content p {
+      font-size: clamp(14px, 2vw, 18px);
+      margin-bottom: clamp(16px, 3vw, 24px);
+      opacity: 0.9;
+      max-width: 600px
+    }
+
+    .carousel-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    /* Dots consistentes para todos os carrosséis */
+    .dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      transition: all 0.3s;
+    }
+
+    .dot:hover,
+    .dot.active {
+      background: var(--accent);
+      transform: scale(1.2);
+    }
+
+    /* FAQ */
+    .faq {
+      max-width: 800px;
+      margin: 0 auto
+    }
+
+    details {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 12px;
+      transition: all 0.3s
+    }
+
+    details[open] {
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      border-color: var(--accent)
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 18px;
+      padding-right: 30px;
+      position: relative;
+      list-style: none
+    }
+
+    summary::-webkit-details-marker {
+      display: none
+    }
+
+    summary:after {
+      content: "+";
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 24px;
+      transition: transform 0.3s
+    }
+
+    details[open] summary:after {
+      content: "−";
+      transform: rotate(180deg)
+    }
+
+    details p {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05)
+    }
+
+    /* case grid */
+    .case-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px
+    }
+
+    @media (min-width:768px) {
+      .case-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px
+      }
+    }
+
+    /* About small image */
+    .about-inner {
+      display: flex;
+      gap: clamp(20px, 4vw, 40px);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center
+    }
+
+    @media (min-width:768px) {
+      .about-inner {
+        flex-direction: row;
+        text-align: left;
+        justify-content: flex-start
+      }
+    }
+
+    .about-inner img {
+      width: clamp(120px, 20vw, 200px);
+      height: clamp(120px, 20vw, 200px);
+      border-radius: 20px;
+      object-fit: cover;
+      border: 4px solid var(--card)
+    }
+
+    .about-inner .about-text {
+      max-width: 800px
+    }
+
+    /* Contact improved */
+    form {
+      background: var(--card);
+      padding: clamp(24px, 5vw, 40px);
+      border-radius: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1)
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 16px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      background: var(--glass);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      font-size: 16px;
+      transition: border-color 0.3s
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(109, 74, 255, 0.1)
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px
+    }
+
+    @media (min-width:768px) {
+      .grid-2 {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px
+      }
+    }
+
+    @media (min-width:1024px) {
+      .grid-2 {
+        gap: 32px
+      }
+    }
+
+    .contact-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 30px;
+      flex-wrap: wrap
+    }
+
+    @media (max-width:767px) {
+      .contact-actions {
+        flex-direction: column
+      }
+
+      .btn {
+        width: 100%
+      }
+    }
+
+    .small {
+      font-size: 14px;
+      color: var(--muted)
+    }
+
+    /* Footer atualizado */
+    footer {
+      margin-top: 60px;
+      padding: 40px 0;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background: var(--bg);
+    }
+
+    .footer-content {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 40px);
+    }
+
+    .footer-links {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .footer-links span {
+      color: var(--muted);
+      opacity: 0.5;
+    }
+
+    /* language switcher - SOMENTE DESKTOP */
+    .lang-switch {
+      display: none
+    }
+
+    @media (min-width:1024px) {
+      .lang-switch {
+        display: flex;
+        gap: 8px;
+        align-items: center
+      }
+    }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 18px;
+      transition: all 0.2s
+    }
+
+    .lang-btn:hover {
+      background: var(--glass);
+      transform: translateY(-2px)
+    }
+
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+      transform: none
+    }
+
+    /* theme toggle - SOMENTE DESKTOP */
+    .theme-toggle {
+      display: none
+    }
+
+    @media (min-width:1024px) {
+      .theme-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: transparent;
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 20px;
+        transition: all 0.2s
+      }
+
+      .theme-toggle:hover {
+        background: var(--glass);
+        transform: translateY(-2px)
+      }
+
+      .theme-toggle.active {
+        background: var(--accent);
+        color: #fff;
+        border-color: transparent
+      }
+    }
+
+    .assistant {
+      position: fixed;
+      right: clamp(20px, 5vw, 40px);
+      bottom: clamp(20px, 5vw, 40px);
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #8f6bff, #5f2eff);
+      border: none;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 20px 60px rgba(95, 46, 255, 0.4);
+      transition: all 0.3s ease;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .assistant:hover {
+      transform: scale(1.1);
+      box-shadow: 0 30px 80px rgba(95, 46, 255, 0.6);
+    }
+
+    .assistant.pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(95, 46, 255, 0.7);
+      }
+
+      70% {
+        box-shadow: 0 0 0 15px rgba(95, 46, 255, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(95, 46, 255, 0);
+      }
+    }
+
+    /* Painel do assistente - REFATORADO e PERFEITO */
+    .assistant-panel {
+      position: fixed;
+      right: clamp(20px, 5vw, 40px);
+      bottom: clamp(90px, 12vh, 100px);
+      width: min(95vw, 420px);
+      height: min(80vh, 700px);
+      max-height: 90vh;
+      background: transparent;
+      /* transparente para o iframe controlar o fundo */
+      border-radius: 24px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+      display: block;
+      /* agora controlamos com .open via opacity/transform */
+    }
+
+    .assistant-panel.open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: all;
+    }
+
+    /* Iframe dentro do painel */
+    .assistant-panel iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 24px;
+      display: block;
+    }
+
+    /* Responsivo para mobile - painel quase full screen */
+    @media (max-width: 768px) {
+      .assistant-panel {
+        left: 10px;
+        right: 10px;
+        width: auto;
+        height: 85vh;
+        bottom: clamp(80px, 10vh, 100px);
+        border-radius: 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .assistant-panel {
+        left: 8px;
+        right: 8px;
+        bottom: 80px;
+        height: 80vh;
+        border-radius: 20px;
+      }
+
+      .assistant {
+        width: 60px;
+        height: 60px;
+        font-size: 26px;
+      }
+    }
+
+    /* subtle animation */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all .6s ease-out
+    }
+
+    .fade-up.show {
+      opacity: 1;
+      transform: none
+    }
+
+    /* Carrossel principal em mobile */
+    @media (max-width: 767px) {
+      .carousel {
+        height: auto;
+        min-height: 400px;
+        overflow: visible;
+        margin: 0 -16px;
+        padding: 0 16px;
+      }
+
+      .carousel-inner {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        padding: 8px 0 24px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        height: auto;
+        transition: none;
+        transform: none !important;
+      }
+
+      .carousel-inner::-webkit-scrollbar {
+        display: none;
+      }
+
+      .carousel-item {
+        flex: 0 0 calc(85vw - 32px);
+        max-width: calc(85vw - 32px);
+        scroll-snap-align: start;
+        margin: 0;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .carousel-item img {
+        height: 250px;
+        object-fit: cover;
+      }
+
+      .carousel-content {
+        position: relative;
+        background: linear-gradient(to top, var(--card), transparent);
+        padding: 20px;
+      }
+
+      .dots {
+        margin-top: 24px;
+      }
+    }
+
+    @media (min-width: 768px) {
+
+      /* Restaura comportamento original para desktop */
+      .carousel {
+        height: clamp(320px, 50vw, 500px);
+        overflow: hidden;
+      }
+
+      .carousel-inner {
+        display: flex;
+        transition: transform .6s cubic-bezier(.2, .9, .3, 1);
+        height: 100%;
+        gap: 0;
+        overflow: visible;
+        scroll-snap-type: none;
+      }
+
+      .carousel-item {
+        flex: 0 0 100%;
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    /* Focus styles para acessibilidade */
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+      border-radius: 4px
+    }
+
+    /* Toast animation */
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    /* AdSense ads styling otimizado */
+    .ads-container {
+      margin: 40px auto;
+      text-align: center;
+      max-width: 1200px;
+      min-height: 100px;
+      background: var(--glass);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .adsense-ad {
+      margin: 0;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .adsbygoogle {
+      display: block !important;
+      margin: 0 auto;
+    }
+
+    /* Responsividade para anúncios */
+    @media (max-width: 768px) {
+      .ads-container {
+        margin: 30px auto;
+        padding: 16px;
+        min-height: 80px;
+      }
+    }
+
+    /* Animação para gradiente móvel */
+    html[data-theme="dark"] body {
+      background-size: 200% 200%;
+      animation: gradientMove 15s ease infinite;
+      background-attachment: fixed;
+    }
+
+    html[data-theme="light"] body {
+      background-size: cover;
+      background-attachment: fixed;
+      animation: none;
+    }
+
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <header aria-label="Cabeçalho principal">
+      <div class="brand">
+        <h1>MakerAI Studio</h1>
+        <span class="badge">IA • 3D • PWAs</span>
+      </div>
+
+      <nav aria-label="Navegação principal">
+        <ul>
+          <li><a href="#servicos" data-i18n="nav_servicos">Serviços</a></li>
+          <li><a href="#portfolio" data-i18n="nav_portfolio">Portfólio</a></li>
+          <li><a href="#cases" data-i18n="nav_cases">Cases</a></li>
+          <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
+          <li><a href="#sobre" data-i18n="nav_sobre">Sobre</a></li>
+          <li><a href="#contato" class="cta-primary" data-i18n="nav_contato">Contato</a></li>
+          <li><a href="login.html" class="cta-primary">Login</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-controls-desktop">
+        <div class="lang-switch" aria-label="Selecionar idioma">
+          <button class="lang-btn" data-lang="pt" aria-label="Português" title="Português">🇧🇷</button>
+          <button class="lang-btn" data-lang="en" aria-label="Inglês" title="Inglês">🇺🇸</button>
+          <button class="lang-btn" data-lang="es" aria-label="Espanhol" title="Espanhol">🇪🇸</button>
+        </div>
+
+        <button id="themeToggle" class="theme-toggle" title="Alternar tema" aria-label="Alternar tema claro/escuro"
+          aria-pressed="false">🌙</button>
+      </div>
+
+      <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menu mobile" title="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M3 6h18M3 12h18M3 18h18"></path>
+        </svg>
+      </button>
+    </header>
+
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true" role="dialog" aria-label="Menu mobile" aria-modal="true">
+      <div class="inner" role="document">
+        <div class="mobile-nav-header">
+          <div class="brand">
+            <h2>MakerAI Studio</h2>
+          </div>
+          <button id="closeMobileNav" type="button" aria-label="Fechar menu"
+            style="background:transparent;border:none;color:var(--text);cursor:pointer;font-size:24px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--glass)">✕</button>
+        </div>
+
+        <ul class="mobile-nav-list">
+          <li><a href="#servicos">
+              <span class="icon">⚙️</span>
+              <span>Serviços</span>
+            </a></li>
+          <li><a href="#portfolio">
+              <span class="icon">🎨</span>
+              <span>Portfólio</span>
+            </a></li>
+          <li><a href="#cases">
+              <span class="icon">📊</span>
+              <span>Cases</span>
+            </a></li>
+          <li><a href="#faq">
+              <span class="icon">❓</span>
+              <span>FAQ</span>
+            </a></li>
+          <li><a href="#sobre">
+              <span class="icon">👤</span>
+              <span>Sobre</span>
+            </a></li>
+          <li><a href="login.html">
+              <span class="icon">🔐</span>
+              <span>Login</span>
+            </a></li>
+          <li><a href="#assistentes">
+              <span class="icon">🤖</span>
+              <span>Assistentes IA</span>
+            </a></li>
+          <li><a href="#tecnologias">
+              <span class="icon">💻</span>
+              <span>Tecnologias</span>
+            </a></li>
+          <li><a href="#produtos">
+              <span class="icon">📦</span>
+              <span>Produtos</span>
+            </a></li>
+          <li><a href="#blog">
+              <span class="icon">📝</span>
+              <span>Blog</span>
+            </a></li>
+        </ul>
+
+        <div class="mobile-nav-controls">
+          <h3>Preferências</h3>
+          <div class="mobile-controls-grid">
+            <button class="mobile-lang-btn" data-lang="pt" type="button">
+              <span class="flag">🇧🇷</span>
+              <span class="code">PT</span>
+            </button>
+            <button class="mobile-lang-btn" data-lang="en" type="button">
+              <span class="flag">🇺🇸</span>
+              <span class="code">EN</span>
+            </button>
+            <button class="mobile-lang-btn" data-lang="es" type="button">
+              <span class="flag">🇪🇸</span>
+              <span class="code">ES</span>
+            </button>
+            <button class="mobile-theme-toggle" id="mobileThemeToggle" type="button">
+              🌙
+            </button>
+          </div>
+        </div>
+
+        <div class="mobile-nav-footer">
+          <a href="#contato" class="cta-primary">Entrar em contato</a>
+          <p class="small">© 2026 MakerAI Studio</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <!-- AdSense Banner 1 - Topo da página (Alta visibilidade) -->
+      <div class="ads-container" role="complementary" aria-label="Publicidade">
+        <div class="adsense-ad">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-SEU_ID_AQUI" data-ad-slot="1234567890"
+            data-ad-format="horizontal" data-full-width-responsive="true" aria-hidden="true"></ins>
+        </div>
+      </div>
+
+      <section class="hero fade-up" aria-labelledby="hero-title">
+        <div class="hero-text">
+          <h2 id="hero-title" data-i18n="hero_title">Soluções Inteligentes para Negócios Modernos — <span>IA, Web e
+              Experiências</span></h2>
+          <p data-i18n="hero_sub">Design, desenvolvimento e automações que transformam serviços em experiências
+            rentáveis. Protótipos rápidos, produtos prontos e integração com IA para vendas, atendimento e retenção.</p>
+          <div style="display:flex; gap:16px; margin-top:30px; flex-wrap:wrap">
+            <a href="#contato" class="btn primary" data-i18n="cta_primary">Quero minha solução</a>
+            <a href="#portfolio" class="btn secondary" data-i18n="ver_portfolio">Ver portfólio →</a>
+          </div>
+          <div class="kpis">
+            <div class="kpi">
+              <strong>+300%</strong>
+              <span class="muted">Engajamento de Usuário</span>
+            </div>
+            <div class="kpi">
+              <strong>98%</strong>
+              <span class="muted">Performance Score</span>
+            </div>
+            <div class="kpi">
+              <strong>12x</strong>
+              <span class="muted">ROI em Automação</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <img
+            src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Protótipo de aplicativo móvel com IA" loading="eager">
+          <p class="small" style="text-align:center">Design system proprietário com foco em performance e WCAG.</p>
+        </div>
+      </section>
+
+      <!-- AdSense Banner 2 - Após hero (Alto engajamento) -->
+      <div class="ads-container" role="complementary" aria-label="Publicidade">
+        <div class="adsense-ad">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-SEU_ID_AQUI" data-ad-slot="2345678901"
+            data-ad-format="auto" data-full-width-responsive="true" aria-hidden="true"></ins>
+        </div>
+      </div>
+
+      <section id="servicos" class="section fade-up" aria-labelledby="servicos-title">
+        <div class="section-title">
+          <h3 id="servicos-title" data-i18n="servicos_title">Serviços e Foco</h3>
+          <p class="muted" data-i18n="servicos_sub">Ajudamos sua empresa a crescer com tecnologia inteligente.</p>
+        </div>
+
+        <!-- Carrossel para mobile -->
+        <div class="cards-carousel-container">
+          <div class="cards-carousel" id="servicosCarousel">
+            <article class="card" role="listitem" aria-labelledby="s1">
+              <img class="card-thumb"
+                src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Interface de um sistema PWA" loading="lazy">
+              <h4 id="s1">Web Apps e PWAs</h4>
+              <p class="muted">Sistemas web progressivos (PWAs) de alta performance e usabilidade.</p>
+              <div class="card-actions">
+                <!-- href="#" evita rolagem da página; o JS cuida da abertura do info-card -->
+                <a href="#" class="saiba-mais" data-topic="s1" aria-expanded="false" aria-controls="info-s1">
+                  Saiba mais →
+                </a>
+              </div>
+
+              <!-- Info-card expansível -->
+              <div class="info-card" id="info-s1" data-topic="s1" aria-hidden="true" role="region"
+                aria-labelledby="info-heading-s1">
+                <div class="info-row">
+                  <div>
+                    <h5 id="info-heading-s1">PWAs & Web Apps</h5>
+                    <p>Desenvolvemos aplicações web com performance nativa, prontas para funcionar offline e com
+                      excelentes métricas de Core Web Vitals.</p>
+                    <div class="info-actions">
+                      <!-- Link corrigido para a pasta projetos-principais -->
+                      <a href="projetos-principais/projeto-pwa-educacao.html" class="btn primary" target="_blank"
+                        rel="noopener">
+                        Ver demo ao vivo
+                      </a>
+                      <a href="#portfolio" class="btn ghost">Ir ao portfólio</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="card" role="listitem" aria-labelledby="s2">
+              <img class="card-thumb"
+                src="https://plus.unsplash.com/premium_photo-1733266868412-cfc2ac17b497?q=80&w=1278&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Avatares IA - Personagem digital conversacional" loading="lazy">
+              <h4 id="s2">Avatares & Consultores IA</h4>
+              <p class="muted">Assistentes conversacionais e personagens digitais para vendas e suporte 24/7.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="s2" aria-expanded="false">Saiba mais →</a>
+              </div>
+              <div class="info-card" data-topic="s2" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="https://plus.unsplash.com/premium_photo-1733266868412-cfc2ac17b497?q=80&w=1278&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="Avatar IA">
+                  <div>
+                    <h5>Consultoria de IA</h5>
+                    <p>Desenvolvemos e integramos modelos de linguagem (LLMs) em assistentes virtuais 3D ou textuais,
+                      focando em tarefas de alta complexidade como análise jurídica ou suporte técnico especializado.
+                    </p>
+                    <div class="info-actions">
+                      <button class="btn primary" onclick="openProject('ai-consultant')">Ver demo</button>
+                      <a href="#portfolio" class="btn ghost">Ir ao portfólio</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="card" role="listitem" aria-labelledby="s3">
+              <img class="card-thumb"
+                src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Automação de processos RPA" loading="lazy">
+              <h4 id="s3">Automações RPA e Scripts</h4>
+              <p class="muted">Otimização de rotinas de negócio (e-mail, planilhas, dados) com *bots* inteligentes.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="s3" aria-expanded="false">Saiba mais →</a>
+              </div>
+              <div class="info-card" data-topic="s3" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="RPA interface">
+                  <div>
+                    <h5>Robotic Process Automation (RPA)</h5>
+                    <p>Implementamos *bots* para tarefas repetitivas. Integração com APIs externas (ex: CRM, ERP) para
+                      fluidez operacional e redução de erros humanos.</p>
+                    <div class="info-actions">
+                      <button class="btn primary" onclick="openProject('rpa-automation')">Ver exemplos</button>
+                      <a href="#portfolio" class="btn ghost">Ir ao portfólio</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="card" role="listitem" aria-labelledby="s4">
+              <img class="card-thumb"
+                src="https://plus.unsplash.com/premium_photo-1718198501772-53cc7b846403?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Visão de um modelo 3D" loading="lazy">
+              <h4 id="s4">Modelagem 3D e Experiências</h4>
+              <p class="muted">Visualizações interativas, realidade aumentada (AR) e modelos de produto 3D para
+                e-commerce e arquitetura.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="s4" aria-expanded="false">Saiba mais →</a>
+              </div>
+              <div class="info-card" data-topic="s4" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="https://plus.unsplash.com/premium_photo-1718198501772-53cc7b846403?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="Modelo 3D">
+                  <div>
+                    <h5>3D para Web e AR</h5>
+                    <p>Criação e otimização de modelos 3D (GLTF/GLB) para exibição em tempo real na web, utilizando
+                      Three.js e WebGL. Ideal para configuradores de produto e tour virtual.</p>
+                    <div class="info-actions">
+                      <button class="btn primary" onclick="openProject('3d-web-ar')">Ver demos 3D</button>
+                      <a href="#portfolio" class="btn ghost">Ir ao portfólio</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="card" role="listitem" aria-labelledby="s5">
+              <img class="card-thumb"
+                src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=806&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Dashboard de análise de dados" loading="lazy">
+              <h4 id="s5">Sistemas e Dashboards</h4>
+              <p class="muted">Backends escaláveis, APIs robustas e painéis de análise de dados em tempo real.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="s5" aria-expanded="false">Saiba mais →</a>
+              </div>
+              <div class="info-card" data-topic="s5" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="hhttps://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=806&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="Dashboard">
+                  <div>
+                    <h5>Sistemas & Dashboards</h5>
+                    <p>Construímos backends escaláveis, painéis analíticos e integrações em tempo real para tomada de
+                      decisão. Boa prática de observability e deploy automatizado.</p>
+                    <div class="info-actions">
+                      <button class="btn primary" onclick="openProject('custom-systems')">Ver demo</button>
+                      <a href="#portfolio" class="btn ghost">Ir ao portfólio</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="card" role="listitem" aria-labelledby="s6">
+              <img class="card-thumb"
+                src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=1200&q=60&auto=format&fit=crop"
+                alt="Conteúdo - Estratégia digital" loading="lazy">
+              <h4 id="s6">Conteúdo & SEO Técnico</h4>
+              <p class="muted">Estratégias de conteúdo para IA, SEO de alta performance e copywriting.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="s6" aria-expanded="false">Saiba mais →</a>
+              </div>
+              <div class="info-card" data-topic="s6" aria-hidden="true">
+                <div class="info-row">
+                  <img src="https://images.unsplash.com/photo-1544327464-969c3a35a64b?w=1200&q=60&auto=format&fit=crop"
+                    alt="SEO interface">
+                  <div>
+                    <h5>Estratégia de Conteúdo</h5>
+                    <p>Conteúdo otimizado para motores de busca e para modelos de linguagem. Estrutura técnica (schema
+                      markup, performance) para máxima visibilidade.</p>
+                    <div class="info-actions">
+                      <button class="btn primary" onclick="openProject('seo-strategy')">Ver exemplos</button>
+                      <a href="#portfolio" class="btn ghost">Ir ao portfólio</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="carousel-indicators" id="servicosIndicators"></div>
+        </div>
+
+        <!-- Grid para desktop -->
+        <div class="grid mobile-carousel" role="list">
+          <article class="card" role="listitem" aria-labelledby="s1">
+            <img class="card-thumb"
+              src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Interface de um sistema PWA" loading="lazy">
+            <h4 id="s1">Web Apps e PWAs</h4>
+            <p class="muted">Sistemas web progressivos (PWAs) de alta performance e usabilidade.</p>
+            <div class="card-actions">
+              <a href="#" class="saiba-mais" data-topic="s1" aria-expanded="false" aria-controls="info-s1">Saiba mais
+                →</a>
+            </div>
+
+            <!-- Info-card que aparece ao clicar em "Saiba mais" -->
+            <div class="info-card" id="info-s1" data-topic="s1" aria-hidden="true" role="region"
+              aria-labelledby="info-heading-s1">
+              <div class="info-row">
+
+                <div>
+                  <h5 id="info-heading-s1">PWAs & Web Apps</h5>
+                  <p>Desenvolvemos aplicações web com performance nativa, prontas para funcionar offline e com
+                    excelentes métricas de Core Web Vitals.</p>
+                  <div class="info-actions">
+                    <!-- Link corrigido para a pasta projetos-principais -->
+                    <a href="projetos-principais/projeto-pwa-educacao.html" class="btn primary" target="_blank"
+                      rel="noopener">
+                      Ver demo ao vivo
+                    </a>
+                    <a href="#portfolio" class="btn ghost">Ir ao portfólio</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="card" role="listitem" aria-labelledby="s2">
+            <img class="card-thumb"
+              src="https://plus.unsplash.com/premium_photo-1733266868412-cfc2ac17b497?q=80&w=1278&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Avatares IA - Personagem digital conversacional" loading="lazy">
+            <h4 id="s2">Avatares & Consultores IA</h4>
+            <p class="muted">Assistentes conversacionais e personagens digitais para vendas e suporte 24/7.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="s2" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="s2" aria-hidden="true">
+              <div class="info-row">
+                <img
+                  src="https://plus.unsplash.com/premium_photo-1733266868412-cfc2ac17b497?q=80&w=1278&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Avatar IA">
+                <div>
+                  <h5>Consultoria de IA</h5>
+                  <p>Desenvolvemos e integramos modelos de linguagem (LLMs) em assistentes virtuais 3D ou textuais,
+                    focando em tarefas de alta complexidade como análise jurídica ou suporte técnico especializado.</p>
+                  <div class="info-actions">
+                    <button class="btn primary" onclick="openProject('ai-consultant')">Ver demo</button>
+                    <a href="#portfolio" class="btn ghost">Ir ao portfólio</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="card" role="listitem" aria-labelledby="s3">
+            <img class="card-thumb"
+              src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Automação de processos RPA" loading="lazy">
+            <h4 id="s3">Automações RPA e Scripts</h4>
+            <p class="muted">Otimização de rotinas de negócio (e-mail, planilhas, dados) com *bots* inteligentes.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="s3" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="s3" aria-hidden="true">
+              <div class="info-row">
+                <img
+                  src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="RPA interface">
+                <div>
+                  <h5>Robotic Process Automation (RPA)</h5>
+                  <p>Implementamos *bots* para tarefas repetitivas. Integração com APIs externas (ex: CRM, ERP) para
+                    fluidez operacional e redução de erros humanos.</p>
+                  <div class="info-actions">
+                    <button class="btn primary" onclick="openProject('rpa-automation')">Ver exemplos</button>
+                    <a href="#portfolio" class="btn ghost">Ir ao portfólio</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="card" role="listitem" aria-labelledby="s4">
+            <img class="card-thumb"
+              src="https://plus.unsplash.com/premium_photo-1718198501772-53cc7b846403?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Visão de um modelo 3D" loading="lazy">
+            <h4 id="s4">Modelagem 3D e Experiências</h4>
+            <p class="muted">Visualizações interativas, realidade aumentada (AR) e modelos de produto 3D para e-commerce
+              e arquitetura.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="s4" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="s4" aria-hidden="true">
+              <div class="info-row">
+                <img
+                  src="https://plus.unsplash.com/premium_photo-1718198501772-53cc7b846403?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Modelo 3D">
+                <div>
+                  <h5>3D para Web e AR</h5>
+                  <p>Criação e otimização de modelos 3D (GLTF/GLB) para exibição em tempo real na web, utilizando
+                    Three.js e WebGL. Ideal para configuradores de produto e tour virtual.</p>
+                  <div class="info-actions">
+                    <button class="btn primary" onclick="openProject('3d-web-ar')">Ver demos 3D</button>
+                    <a href="#portfolio" class="btn ghost">Ir ao portfólio</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="card" role="listitem" aria-labelledby="s5">
+            <img class="card-thumb"
+              src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=806&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Dashboard de análise de dados" loading="lazy">
+            <h4 id="s5">Sistemas e Dashboards</h4>
+            <p class="muted">Backends escaláveis, APIs robustas e painéis de análise de dados em tempo real.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="s5" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="s5" aria-hidden="true">
+              <div class="info-row">
+                <img
+                  src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=806&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Dashboard">
+                <div>
+                  <h5>Sistemas & Dashboards</h5>
+                  <p>Construímos backends escaláveis, painéis analíticos e integrações em tempo real para tomada de
+                    decisão. Boa prática de observability e deploy automatizado.</p>
+                  <div class="info-actions">
+                    <button class="btn primary" onclick="openProject('custom-systems')">Ver demo</button>
+                    <a href="#portfolio" class="btn ghost">Ir ao portfólio</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="card" role="listitem" aria-labelledby="s6">
+            <img class="card-thumb"
+              src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=1200&q=60&auto=format&fit=crop"
+              alt="Conteúdo - Estratégia digital" loading="lazy">
+            <h4 id="s6">Conteúdo & SEO Técnico</h4>
+            <p class="muted">Estratégias de conteúdo para IA, SEO de alta performance e copywriting.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="s6" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="s6" aria-hidden="true">
+              <div class="info-row">
+                <img src="https://images.unsplash.com/photo-1544327464-969c3a35a64b?w=1200&q=60&auto=format&fit=crop"
+                  alt="SEO interface">
+                <div>
+                  <h5>Estratégia de Conteúdo</h5>
+                  <p>Conteúdo otimizado para motores de busca e para modelos de linguagem. Estrutura técnica (schema
+                    markup, performance) para máxima visibilidade.</p>
+                  <div class="info-actions">
+                    <button class="btn primary" onclick="openProject('seo-strategy')">Ver exemplos</button>
+                    <a href="#portfolio" class="btn ghost">Ir ao portfólio</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- AdSense Banner 3 - Após serviços (Meio da página) -->
+      <div class="ads-container" role="complementary" aria-label="Publicidade">
+        <div class="adsense-ad">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-SEU_ID_AQUI" data-ad-slot="3456789012"
+            data-ad-format="auto" data-full-width-responsive="true" aria-hidden="true"></ins>
+        </div>
+      </div>
+
+      <section id="portfolio" class="section fade-up" aria-labelledby="portfolio-title">
+        <div class="section-title">
+          <h3 id="portfolio-title" data-i18n="portfolio_title">Portfólio em Destaque</h3>
+          <p class="muted" data-i18n="portfolio_sub">Uma amostra dos projetos que criamos.</p>
+        </div>
+        <div class="carousel" role="region" aria-label="Carrossel de Portfólio">
+          <div class="carousel-inner" id="carouselInner">
+            <div class="carousel-item" role="group" aria-label="Slide 1 de 3">
+              <img
+                src="https://images.unsplash.com/photo-1763107228544-2ad5d71c21f0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fHRlY2hub2xvZ3klMjBhcHB8ZW58MHx8MHx8fDA%3D"
+                alt="Imagem de capa do projeto de PWA para educação">
+              <div class="carousel-content">
+                <h4>PWA Educacional com Gamificação</h4>
+                <p>Plataforma de EAD de alta performance. Implementação de sistema de recompensas, trilhas
+                  personalizadas e IA para resumo de conteúdo.</p>
+                <div class="carousel-actions">
+                  <button class="btn primary" onclick="openProject('ead-pwa')">Ver projeto</button>
+                  <button class="btn secondary" onclick="openCase('ead-pwa')">Ver Case</button>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item" role="group" aria-label="Slide 2 de 3">
+              <img
+                src="https://www.operacionesbinarias.org/wp-content/uploads/2023/10/Soluciones-avanzadas-de-soporte-tecnico-con-Inteligencia-Artificial.jpg"
+                alt="Imagem de capa do projeto de Avatar 3D com IA">
+              <div class="carousel-content">
+                <h4>Consultor 3D de Vendas</h4>
+                <p>Avatar interativo com IA generativa para suporte ao cliente e vendas complexas, integrado ao CRM.
+                  Redução de 40% no tempo de atendimento.</p>
+                <div class="carousel-actions">
+                  <button class="btn primary" onclick="openProject('3d-avatar')">Ver demo</button>
+                  <button class="btn secondary" onclick="openCase('3d-avatar')">Ver Case</button>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item" role="group" aria-label="Slide 3 de 3">
+              <img
+                src="https://plus.unsplash.com/premium_photo-1682147575923-d35d333704b5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8RGFzaGJvYXJkJTIwZGUlMjBPYnNlcnZhYmlsaWRhZGUlMjBlbSUyMFRlbXBvJTIwUmVhbCUyMFBhaW5lbCUyMGFuYWwlQzMlQUR0aWNvJTIwY3VzdG9taXphZG8lMjBjb20lMjBhbGVydGFzJTIwZSUyMHZpc3VhbGl6YSVDMyVBNyVDMyVCNWVzJTIwM0QlMjBwYXJhJTIwbW9uaXRvcmFtZW50byUyMGRlJTIwc2Vydmlkb3JlcyUyMGUlMjBwcm9jZXNzb3MlMjBkZSUyMGxvZyVDMyVBRHN0aWNhLnxlbnwwfHwwfHx8MA%3D%3D"
+                alt="Imagem de capa de Dashboard de dados em tempo real">
+              <div class="carousel-content">
+                <h4>Dashboard de Observabilidade em Tempo Real</h4>
+                <p>Painel analítico customizado com alertas e visualizações 3D para monitoramento de servidores e
+                  processos de logística.</p>
+                <div class="carousel-actions">
+                  <button class="btn primary" onclick="openProject('obs-dashboard')">Ver projeto</button>
+                  <button class="btn secondary" onclick="openCase('obs-dashboard')">Ver Case</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dots" id="dots" role="tablist" aria-label="Navegação do carrossel">
+            <button class="dot active" role="tab" aria-controls="carouselInner" aria-label="Ir para o slide 1"></button>
+            <button class="dot" role="tab" aria-controls="carouselInner" aria-label="Ir para o slide 2"></button>
+            <button class="dot" role="tab" aria-controls="carouselInner" aria-label="Ir para o slide 3"></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- AdSense Banner 4 - Após portfólio (Conteúdo visual engajante) -->
+      <div class="ads-container" role="complementary" aria-label="Publicidade">
+        <div class="adsense-ad">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-SEU_ID_AQUI" data-ad-slot="4567890123"
+            data-ad-format="auto" data-full-width-responsive="true" aria-hidden="true"></ins>
+        </div>
+      </div>
+
+      <section id="cases" class="section fade-up" aria-labelledby="cases-title">
+        <div class="section-title">
+          <h3 id="cases-title">Cases de Sucesso</h3>
+          <p class="muted">Como transformamos negócios com foco em resultados.</p>
+        </div>
+
+        <!-- Carrossel para mobile -->
+        <div class="cards-carousel-container">
+          <div class="cards-carousel" id="casesCarousel">
+            <div class="card" role="listitem" aria-labelledby="case1">
+              <h4 id="case1">AHA Academy</h4>
+              <p class="muted">Redesenho da plataforma educacional com gamificação, PWA e testes A/B. +300% de
+                engajamento em 3 meses.</p>
+              <div style="margin-top:16px; display:flex; gap:12px">
+                <a href="#portfolio" class="saiba-mais" data-topic="case-academy" aria-expanded="false">Ver case
+                  completo →</a>
+              </div>
+              <div class="info-card" data-topic="case-academy" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="https://tse1.mm.bing.net/th/id/OIP.q2slyWqO82eveiHG8EmsMQHaEk?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
+                    alt="AHA Academy Case">
+                  <div>
+                    <h5>Case: AHA Academy</h5>
+                    <p>Implementação de design system, arquitetura de PWA e trilhas de gamificação. Foco em retenção e
+                      performance.</p>
+                    <div class="info-actions">
+                      <a href="#portfolio" class="btn ghost">Ver case</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" role="listitem" aria-labelledby="case2">
+              <h4 id="case2">Santuário Emocional</h4>
+              <p class="muted">Aplicativo de bem-estar com diários e rituais. Uso de animações imersivas para retenção.
+              </p>
+              <div style="margin-top:16px; display:flex; gap:12px">
+                <a href="#portfolio" class="saiba-mais" data-topic="case-santuario" aria-expanded="false">Ver case
+                  completo →</a>
+              </div>
+              <div class="info-card" data-topic="case-santuario" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="https://play-lh.googleusercontent.com/5M8qQxm-whmrGgcx4-vJ_iO4OyKaU-8u2n3ntEyRJo1QGnzdcmfRJQXn-clj9Noljg"
+                    alt="Santuário Emocional Case">
+                  <div>
+                    <h5>Case: Santuário Emocional</h5>
+                    <p>Desenvolvimento focado em UX, com métricas de engajamento. Plataforma pronta para escalabilidade
+                      global.</p>
+                    <div class="info-actions">
+                      <a href="#portfolio" class="btn ghost">Ver case</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" role="listitem" aria-labelledby="case3">
+              <h4 id="case3">E-commerce Fashion</h4>
+              <p class="muted">Plataforma de moda com visualizador 3D de produtos. +40% em conversões em 2 meses.</p>
+              <div style="margin-top:16px; display:flex; gap:12px">
+                <a href="#portfolio" class="saiba-mais" data-topic="case-fashion" aria-expanded="false">Ver case
+                  completo →</a>
+              </div>
+              <div class="info-card" data-topic="case-fashion" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="https://static.wixstatic.com/media/53407e_e3d11174eec344a996b1d5b65f15ca30~mv2.jpg/v1/fill/w_980,h_465,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/COMO%20FUNCIONA%20FASHION%203D%20STUDIO%203.jpg"
+                    alt="E-commerce Fashion Case">
+                  <div>
+                    <h5>Case: E-commerce Fashion</h5>
+                    <p>Implementação de visualizador 3D e realidade aumentada para produtos de moda. Integração com CRM
+                      e analytics.</p>
+                    <div class="info-actions">
+                      <a href="#portfolio" class="btn ghost">Ver case</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-indicators" id="casesIndicators"></div>
+        </div>
+
+        <!-- Grid para desktop -->
+        <div class="grid mobile-carousel" role="list">
+          <div class="card" role="listitem" aria-labelledby="case1">
+            <h4 id="case1">AHA Academy</h4>
+            <p class="muted">Redesenho da plataforma educacional com gamificação, PWA e testes A/B. +300% de engajamento
+              em 3 meses.</p>
+            <div style="margin-top:16px; display:flex; gap:12px">
+              <a href="#portfolio" class="saiba-mais" data-topic="case-academy" aria-expanded="false">Ver case completo
+                →</a>
+            </div>
+            <div class="info-card" data-topic="case-academy" aria-hidden="true">
+              <div class="info-row">
+                <img
+                  src="https://tse1.mm.bing.net/th/id/OIP.q2slyWqO82eveiHG8EmsMQHaEk?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
+                  alt="AHA Academy Case">
+                <div>
+                  <h5>Case: AHA Academy</h5>
+                  <p>Implementação de design system, arquitetura de PWA e trilhas de gamificação. Foco em retenção e
+                    performance.</p>
+                  <div class="info-actions">
+                    <a href="#portfolio" class="btn ghost">Ver case</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card" role="listitem" aria-labelledby="case2">
+            <h4 id="case2">Santuário Emocional</h4>
+            <p class="muted">Aplicativo de bem-estar com diários e rituais. Uso de animações imersivas para retenção.
+            </p>
+            <div style="margin-top:16px; display:flex; gap:12px">
+              <a href="#portfolio" class="saiba-mais" data-topic="case-santuario" aria-expanded="false">Ver case
+                completo →</a>
+            </div>
+            <div class="info-card" data-topic="case-santuario" aria-hidden="true">
+              <div class="info-row">
+                <img
+                  src="https://play-lh.googleusercontent.com/5M8qQxm-whmrGgcx4-vJ_iO4OyKaU-8u2n3ntEyRJo1QGnzdcmfRJQXn-clj9Noljg"
+                  alt="Santuário Emocional Case">
+                <div>
+                  <h5>Case: Santuário Emocional</h5>
+                  <p>Desenvolvimento focado em UX, com métricas de engajamento. Plataforma pronta para escalabilidade
+                    global.</p>
+                  <div class="info-actions">
+                    <a href="#portfolio" class="btn ghost">Ver case</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card" role="listitem" aria-labelledby="case3">
+            <h4 id="case3">E-commerce Fashion</h4>
+            <p class="muted">Plataforma de moda com visualizador 3D de produtos. +40% em conversões em 2 meses.</p>
+            <div style="margin-top:16px; display:flex; gap:12px">
+              <a href="#portfolio" class="saiba-mais" data-topic="case-fashion" aria-expanded="false">Ver case completo
+                →</a>
+            </div>
+            <div class="info-card" data-topic="case-fashion" aria-hidden="true">
+              <div class="info-row">
+                <img
+                  src="https://static.wixstatic.com/media/53407e_e3d11174eec344a996b1d5b65f15ca30~mv2.jpg/v1/fill/w_980,h_465,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/COMO%20FUNCIONA%20FASHION%203D%20STUDIO%203.jpg"
+                  alt="E-commerce Fashion Case">
+                <div>
+                  <h5>Case: E-commerce Fashion</h5>
+                  <p>Implementação de visualizador 3D e realidade aumentada para produtos de moda. Integração com CRM e
+                    analytics.</p>
+                  <div class="info-actions">
+                    <a href="#portfolio" class="btn ghost">Ver case</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AdSense Banner 5 - Após casos (Conteúdo de valor) -->
+      <div class="ads-container" role="complementary" aria-label="Publicidade">
+        <div class="adsense-ad">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-SEU_ID_AQUI" data-ad-slot="5678901234"
+            data-ad-format="auto" data-full-width-responsive="true" aria-hidden="true"></ins>
+        </div>
+      </div>
+
+      <section id="faq" class="section fade-up" aria-labelledby="faq-title">
+        <div class="section-title">
+          <h3 id="faq-title" data-i18n="faq_title">Perguntas Frequentes (FAQ)</h3>
+          <p class="muted" data-i18n="faq_sub">Tiramos as dúvidas mais comuns.</p>
+        </div>
+        <div class="faq" role="list">
+          <details class="fade-up">
+            <summary data-i18n="faq_q_1">Quanto tempo leva para desenvolver um site?</summary>
+            <p class="muted" data-i18n="faq_a_1">Depende do escopo. Protótipos: 1–2 semanas. Projeto completo: 4–8
+              semanas. Implementamos milestones e entregas parciais.</p>
+          </details>
+          <details class="fade-up">
+            <summary data-i18n="faq_q_2">Vocês oferecem suporte multilíngue?</summary>
+            <p class="muted" data-i18n="faq_a_2">Sim — PT, EN, ES com traduções integradas e content fallback.</p>
+          </details>
+          <details class="fade-up">
+            <summary data-i18n="faq_q_3">Qual é o custo médio de um projeto?</summary>
+            <p class="muted" data-i18n="faq_a_3">Variável. Sites básicos a partir de R$5.000; sistemas com IA e
+              integrações complexas R$50.000+ (estimativa).</p>
+          </details>
+          <details class="fade-up">
+            <summary data-i18n="faq_q_4">Como integramos IA nos projetos?</summary>
+            <p class="muted" data-i18n="faq_a_4">Integramos APIs de ML para chat, recomendações e automação. Podemos
+              usar endpoints próprios (FastAPI) ou serviços externos.</p>
+          </details>
+          <details class="fade-up">
+            <summary data-i18n="faq_q_5">Vocês garantem acessibilidade?</summary>
+            <p class="muted" data-i18n="faq_a_5">Sim — seguimento das recomendações WCAG, contraste, navegação por
+              teclado e aria-attributes.</p>
+          </details>
+          <details class="fade-up">
+            <summary data-i18n="faq_q_6">Oferecem manutenção e suporte?</summary>
+            <p class="muted" data-i18n="faq_a_6">Sim — planos mensais: correções, atualizações de segurança e
+              monitoramento de performance.</p>
+          </details>
+        </div>
+        <p class="small" style="text-align:center; margin-top:20px">FAQ construída seguindo boas práticas de UX para
+          autoatendimento e redução de suporte.</p>
+      </section>
+
+      <section id="sobre" class="section fade-up" aria-labelledby="sobre-title">
+        <div class="section-title">
+          <h3 id="sobre-title">Sobre a MakerAI Studio</h3>
+          <p class="muted">Nosso foco é na união entre criatividade e inteligência artificial.</p>
+        </div>
+        <div class="about-inner">
+          <img
+            src="https://images.unsplash.com/photo-1573821526049-6452c160be40?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8TXxlbnwwfHwwfHx8MA%3D%3D"
+            alt="Foto da equipe de desenvolvimento">
+          <div class="about-text">
+            <p style="font-size:clamp(16px, 2.5vw, 20px); font-weight:600">Somos uma agência de soluções digitais
+              especializada em **Progressive Web Apps (PWAs)** e integração de **Modelos de Linguagem (LLMs)** para
+              otimizar a experiência do cliente e automatizar processos complexos.</p>
+            <p class="muted" style="margin-top:12px">Nossa missão é transformar ideias em produtos digitais de alto
+              impacto, garantindo performance, escalabilidade e design centrado no usuário, utilizando tecnologias
+              modernas como Python (FastAPI), React, e Design Systems customizados.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="tecnologias" class="section fade-up" aria-labelledby="tech-title">
+        <div class="section-title">
+          <h3 id="tech-title">Tecnologias Core</h3>
+          <p class="muted">O que usamos para construir o futuro do seu negócio.</p>
+        </div>
+
+        <!-- Carrossel para mobile -->
+        <div class="cards-carousel-container">
+          <div class="cards-carousel" id="techCarousel">
+            <div class="card">
+              <h4>React / Next.js / PWAs</h4>
+              <p class="muted">Frontend modular e performático.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="tech-react" aria-expanded="false">Saiba mais →</a>
+              </div>
+              <div class="info-card" data-topic="tech-react" aria-hidden="true">
+                <div class="info-row">
+                  <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=60&auto=format&fit=crop"
+                    alt="React Code">
+                  <div>
+                    <h5>React & Next.js</h5>
+                    <p>Bibliotecas modernas para interfaces dinâmicas e Single Page Applications (SPAs). Focamos em
+                      Server-Side Rendering (SSR) e Static Site Generation (SSG) para performance máxima.</p>
+                    <div class="info-actions">
+                      <a href="#portfolio" class="btn ghost">Ver projetos</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <h4>IPython / FastAP</h4>
+              <p class="muted">APIs rápidas e eficientes para serviços de IA.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="tech-fastapi" aria-expanded="false">Saiba mais →</a>
+              </div>
+              <div class="info-card" data-topic="tech-fastapi" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="https://plus.unsplash.com/premium_photo-1661963874418-df1110ee39c1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dGVjbm9sb2d5fGVufDB8fDB8fHww"
+                    alt="FastAPI">
+                  <div>
+                    <h5>FastAPI</h5>
+                    <p>APIs rápidas com validação automática e documentação integrada. Excelente para serviços de ML e
+                      integrações em tempo real.</p>
+                    <div class="info-actions">
+                      <a href="#portfolio" class="btn ghost">Ver integrações</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <h4>Supabase / PostgreSQL</h4>
+              <p class="muted">Auth, realtime e banco relacional.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="tech-supabase" aria-expanded="false">Saiba mais
+                  →</a>
+              </div>
+              <div class="info-card" data-topic="tech-supabase" aria-hidden="true">
+                <div class="info-row">
+                  <img src="https://cientistasdigitais.com/wp-content/uploads/2025/03/supabase-02-edited-768x432.png"
+                    alt="Database">
+                  <div>
+                    <h5>Supabase & Postgres</h5>
+                    <p>Auth, realtime e storage prontos para uso. Usamos como backend leve para MVPs e serviços com
+                      baixa latência.</p>
+                    <div class="info-actions">
+                      <a href="#portfolio" class="btn ghost">Ver exemplos</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <h4>Tailwind / Design System</h4>
+              <p class="muted">Componentes reutilizáveis e temas.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="tech-design" aria-expanded="false">Saiba mais →</a>
+              </div>
+              <div class="info-card" data-topic="tech-design" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="https://tse2.mm.bing.net/th/id/OIP.34SWqTFRD6yrCaujO9gAEgHaEO?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
+                    alt="Design System Interface">
+                  <div>
+                    <h5>Design Systems</h5>
+                    <p>Usamos uma arquitetura de design token para garantir consistência visual e fácil customização,
+                      acelerando o desenvolvimento e a manutenção.</p>
+                    <div class="info-actions">
+                      <a href="#portfolio" class="btn ghost">Ver exemplos</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-indicators" id="techIndicators"></div>
+        </div>
+
+        <!-- Grid para desktop -->
+        <div class="grid mobile-carousel">
+          <div class="card">
+            <h4>React / Next.js / PWAs</h4>
+            <p class="muted">Frontend modular e performático.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="tech-react" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="tech-react" aria-hidden="true">
+              <div class="info-row">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=60&auto=format&fit=crop"
+                  alt="React Code">
+                <div>
+                  <h5>React & Next.js</h5>
+                  <p>Bibliotecas modernas para interfaces dinâmicas e Single Page Applications (SPAs). Focamos em
+                    Server-Side Rendering (SSR) e Static Site Generation (SSG) para performance máxima.</p>
+                  <div class="info-actions">
+                    <a href="#portfolio" class="btn ghost">Ver projetos</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h4>Python / FastAPI</h4>
+            <p class="muted">APIs rápidas e eficientes para serviços de IA.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="tech-fastapi" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="tech-fastapi" aria-hidden="true">
+              <div class="info-row">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=60&auto=format&fit=crop"
+                  alt="FastAPI">
+                <div>
+                  <h5>FastAPI</h5>
+                  <p>APIs rápidas com validação automática e documentação integrada. Excelente para serviços de ML e
+                    integrações em tempo real.</p>
+                  <div class="info-actions">
+                    <a href="#portfolio" class="btn ghost">Ver integrações</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h4>Supabase / PostgreSQL</h4>
+            <p class="muted">Auth, realtime e banco relacional.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="tech-supabase" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="tech-supabase" aria-hidden="true">
+              <div class="info-row">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=60&auto=format&fit=crop"
+                  alt="Database">
+                <div>
+                  <h5>Supabase & Postgres</h5>
+                  <p>Auth, realtime e storage prontos para uso. Usamos como backend leve para MVPs e serviços com baixa
+                    latência.</p>
+                  <div class="info-actions">
+                    <a href="#portfolio" class="btn ghost">Ver exemplos</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h4>Tailwind / Design System</h4>
+            <p class="muted">Componentes reutilizáveis e temas.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="tech-design" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="tech-design" aria-hidden="true">
+              <div class="info-row">
+                <img src="https://images.unsplash.com/photo-1581093588401-2f5b12666f8f?w=1200&q=60&auto=format&fit=crop"
+                  alt="Design System Interface">
+                <div>
+                  <h5>Design Systems</h5>
+                  <p>Usamos uma arquitetura de design token para garantir consistência visual e fácil customização,
+                    acelerando o desenvolvimento e a manutenção.</p>
+                  <div class="info-actions">
+                    <a href="#portfolio" class="btn ghost">Ver exemplos</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AdSense Banner 6 - Após tecnologias (Antes dos assistentes) -->
+      <div class="ads-container" role="complementary" aria-label="Publicidade">
+        <div class="adsense-ad">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-SEU_ID_AQUI" data-ad-slot="6789012345"
+            data-ad-format="auto" data-full-width-responsive="true" aria-hidden="true"></ins>
+        </div>
+      </div>
+
+      <section id="assistentes" class="section fade-up" aria-labelledby="assistentes-title">
+        <div class="section-title">
+          <h3 id="assistentes-title">Assistentes IA de Negócio</h3>
+          <p class="muted">Automação de tarefas de alto valor.</p>
+        </div>
+
+        <!-- Carrossel para mobile -->
+        <div class="cards-carousel-container">
+          <div class="cards-carousel" id="assistentesCarousel">
+            <div class="card">
+              <img class="card-thumb"
+                src="https://tse1.mm.bing.net/th/id/OIP.R9WMePBScBC_hE4NO1mPQQHaE8?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
+                alt="AI Marketing" loading="lazy">
+              <h4>AI Marketing & Conteúdo</h4>
+              <p class="muted">Criação de copies e fluxos de email marketing.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="ai-marketing" aria-expanded="false">Saiba mais →</a>
+              </div>
+              <div class="info-card" data-topic="ai-marketing" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="https://tse1.mm.bing.net/th/id/OIP.R9WMePBScBC_hE4NO1mPQQHaE8?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
+                    alt="AI Marketing produto">
+                  <div>
+                    <h5>Assistente de Marketing</h5>
+                    <p>Criação de fluxos de e-mail marketing personalizados para nutrição e conversão com métricas
+                      integradas.</p>
+                    <div class="info-actions">
+                      <a href="#portfolio" class="btn ghost">Ver fluxos</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <img class="card-thumb"
+                src="https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2017/03/formacao_a-nutricao-considera-o-alimento-um-remedio-para-a-saude.jpg"
+                alt="AI Nutrição" loading="lazy">
+              <h4>AI Nutrição & Saúde</h4>
+              <p class="muted">Plano de refeições otimizado baseado em dados do cliente e recomendações.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="ai-nutricao" aria-expanded="false">Saiba mais →</a>
+              </div>
+              <div class="info-card" data-topic="ai-nutricao" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2017/03/formacao_a-nutricao-considera-o-alimento-um-remedio-para-a-saude.jpg"
+                    alt="AI Nutrição">
+                  <div>
+                    <h5>Assistente de Nutrição</h5>
+                    <p>Criação de fluxos de e-mail marketing personalizados para nutrição e conversão com métricas
+                      integradas.</p>
+                    <div class="info-actions">
+                      <a href="#portfolio" class="btn ghost">Ver fluxos</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-indicators" id="assistentesIndicators"></div>
+        </div>
+
+        <!-- Grid para desktop -->
+        <div class="grid mobile-carousel">
+          <div class="card">
+            <img class="card-thumb"
+              src="https://tse1.mm.bing.net/th/id/OIP.R9WMePBScBC_hE4NO1mPQQHaE8?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
+              alt="AI Marketing" loading="lazy">
+            <h4>AI Marketing & Conteúdo</h4>
+            <p class="muted">Criação de copies e fluxos de email marketing.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="ai-marketing" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="ai-marketing" aria-hidden="true">
+              <div class="info-row">
+                <img
+                  src="https://tse1.mm.bing.net/th/id/OIP.R9WMePBScBC_hE4NO1mPQQHaE8?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
+                  alt="AI Marketing produto">
+                <div>
+                  <h5>Assistente de Marketing</h5>
+                  <p>Criação de fluxos de e-mail marketing personalizados para nutrição e conversão com métricas
+                    integradas.</p>
+                  <div class="info-actions">
+                    <a href="#portfolio" class="btn ghost">Ver fluxos</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <img class="card-thumb"
+              src="https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2017/03/formacao_a-nutricao-considera-o-alimento-um-remedio-para-a-saude.jpg"
+              alt="AI Nutrição" loading="lazy">
+            <h4>AI Nutrição & Saúde</h4>
+            <p class="muted">Plano de refeições otimizado baseado em dados do cliente e recomendações.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="ai-nutricao" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="ai-nutricao" aria-hidden="true">
+              <div class="info-row">
+                <img src="" alt="AI Nutrição">
+                <div>
+                  <h5>Assistente de Nutrição</h5>
+                  <p>Criação de fluxos de e-mail marketing personalizados para nutrição e conversão com métricas
+                    integradas.</p>
+                  <div class="info-actions">
+                    <a href="#portfolio" class="btn ghost">Ver fluxos</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:24px; text-align:center">
+          <a class="pill" href="#contato" style="padding:12px 24px">Solicitar simulação grátis →</a>
+        </div>
+      </section>
+
+      <section id="produtos" class="section fade-up" aria-labelledby="produtos-title">
+        <div class="section-title">
+          <h3 id="produtos-title">Produtos Prontos</h3>
+          <p class="muted">Soluções *white-label* para *kickstart* rápido.</p>
+        </div>
+
+        <!-- Carrossel para mobile -->
+        <div class="cards-carousel-container">
+          <div class="cards-carousel" id="produtosCarousel">
+            <div class="card">
+              <img class="card-thumb"
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=60&auto=format&fit=crop"
+                alt="Template de PWA" loading="lazy">
+              <h4>Template PWA de Vendas</h4>
+              <p class="muted">PWA pronto para e-commerce ou catálogos digitais.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="prod-pwa" aria-expanded="false">Saiba mais →</a>
+              </div>
+              <div class="info-card" data-topic="prod-pwa" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=60&auto=format&fit=crop"
+                    alt="PWA produto">
+                  <div>
+                    <h5>Template PWA</h5>
+                    <p>Um esqueleto de PWA otimizado, com rotas, cache e manifest configurados. Reduza o tempo de
+                      desenvolvimento em 30%.</p>
+                    <div class="info-actions">
+                      <a href="#portfolio" class="btn ghost">Ver demo</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <img class="card-thumb"
+                src="https://img.freepik.com/premium-photo/web-dashboard-portfolio-analysis-dashboard-with-portfolio-analysis-tools-concept-idea-design-art_655090-978645.jpg"
+                alt="Dashboard 3D" loading="lazy">
+              <h4>Dashboard 3D</h4>
+              <p class="muted">Visualizações interativas para decisões rápidas.</p>
+              <div class="card-actions">
+                <a href="#portfolio" class="saiba-mais" data-topic="prod-dashboard" aria-expanded="false">Saiba mais
+                  →</a>
+              </div>
+              <div class="info-card" data-topic="prod-dashboard" aria-hidden="true">
+                <div class="info-row">
+                  <img
+                    src="https://img.freepik.com/premium-photo/web-dashboard-portfolio-analysis-dashboard-with-portfolio-analysis-tools-concept-idea-design-art_655090-978645.jpg"
+                    alt="Dashboard 3D produto">
+                  <div>
+                    <h5>Dashboard 3D</h5>
+                    <p>Visualizações 3D integradas a dados em tempo real, ideais para operações que precisam identificar
+                      padrões rapidamente.</p>
+                    <div class="info-actions">
+                      <a href="#portfolio" class="btn ghost">Ver demo</a>
+                      <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-indicators" id="produtosIndicators"></div>
+        </div>
+
+        <!-- Grid para desktop -->
+        <div class="grid mobile-carousel">
+          <div class="card">
+            <img class="card-thumb"
+              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=60&auto=format&fit=crop"
+              alt="Template de PWA" loading="lazy">
+            <h4>Template PWA de Vendas</h4>
+            <p class="muted">PWA pronto para e-commerce ou catálogos digitais.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="prod-pwa" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="prod-pwa" aria-hidden="true">
+              <div class="info-row">
+                <img src="https://images.unsplash.com/photo-1549608149-16e537e59679?w=1200&q=60&auto=format&fit=crop"
+                  alt="PWA produto">
+                <div>
+                  <h5>Template PWA</h5>
+                  <p>Um esqueleto de PWA otimizado, com rotas, cache e manifest configurados. Reduza o tempo de
+                    desenvolvimento em 30%.</p>
+                  <div class="info-actions">
+                    <a href="#portfolio" class="btn ghost">Ver demo</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <img class="card-thumb"
+              src="https://img.freepik.com/premium-photo/web-dashboard-portfolio-analysis-dashboard-with-portfolio-analysis-tools-concept-idea-design-art_655090-978645.jpg"
+              alt="Dashboard 3D" loading="lazy">
+            <h4>Dashboard 3D</h4>
+            <p class="muted">Visualizações interativas para decisões rápidas.</p>
+            <div class="card-actions">
+              <a href="#portfolio" class="saiba-mais" data-topic="prod-dashboard" aria-expanded="false">Saiba mais →</a>
+            </div>
+            <div class="info-card" data-topic="prod-dashboard" aria-hidden="true">
+              <div class="info-row">
+                <img
+                  src="https://img.freepik.com/premium-photo/web-dashboard-portfolio-analysis-dashboard-with-portfolio-analysis-tools-concept-idea-design-art_655090-978645.jpg"
+                  alt="Dashboard 3D produto">
+                <div>
+                  <h5>Dashboard 3D</h5>
+                  <p>Visualizações 3D integradas a dados em tempo real, ideais para operações que precisam identificar
+                    padrões rapidamente.</p>
+                  <div class="info-actions">
+                    <a href="#portfolio" class="btn ghost">Ver demo</a>
+                    <button class="close-info" type="button" aria-label="Fechar detalhes">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AdSense Banner 7 - Após produtos (Antes do blog) -->
+      <div class="ads-container" role="complementary" aria-label="Publicidade">
+        <div class="adsense-ad">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-SEU_ID_AQUI" data-ad-slot="7890123456"
+            data-ad-format="auto" data-full-width-responsive="true" aria-hidden="true"></ins>
+        </div>
+      </div>
+
+      <section id="blog" class="section fade-up" aria-labelledby="blog-title">
+        <div class="section-title">
+          <h3 id="blog-title">Últimos artigos</h3>
+        </div>
+
+        <!-- Carrossel para mobile -->
+        <div class="cards-carousel-container">
+          <div class="cards-carousel" id="blogCarousel">
+            <article class="card">
+              <h4><a href="#artigo1" style="text-decoration:none;color:var(--text)">Como migrar para FastAPI em 2025</a>
+              </h4>
+              <p class="muted">Guia prático — performance e async.</p>
+              <div class="card-actions">
+                <a href="#artigo1" class="saiba-mais" aria-expanded="false">Ler artigo →</a>
+              </div>
+            </article>
+            <article class="card">
+              <h4><a href="#artigo2" style="text-decoration:none;color:var(--text)">Design Systems: O que são e por que
+                  usar</a></h4>
+              <p class="muted">Consistência e escalabilidade visual.</p>
+              <div class="card-actions">
+                <a href="#artigo2" class="saiba-mais" aria-expanded="false">Ler artigo →</a>
+              </div>
+            </article>
+            <article class="card">
+              <h4><a href="#artigo3" style="text-decoration:none;color:var(--text)">WCAG e Acessibilidade: Checklist
+                  para Devs</a></h4>
+              <p class="muted">Otimizando a experiência para todos.</p>
+              <div class="card-actions">
+                <a href="#artigo3" class="saiba-mais" aria-expanded="false">Ler artigo →</a>
+              </div>
+            </article>
+          </div>
+          <div class="carousel-indicators" id="blogIndicators"></div>
+        </div>
+
+        <!-- Grid para desktop -->
+        <div class="grid mobile-carousel">
+          <article class="card">
+            <h4><a href="#artigo1" style="text-decoration:none;color:var(--text)">Como migrar para FastAPI em 2025</a>
+            </h4>
+            <p class="muted">Guia prático — performance e async.</p>
+            <div class="card-actions">
+              <a href="#artigo1" class="saiba-mais" aria-expanded="false">Ler artigo →</a>
+            </div>
+          </article>
+          <article class="card">
+            <h4><a href="#artigo2" style="text-decoration:none;color:var(--text)">Design Systems: O que são e por que
+                usar</a></h4>
+            <p class="muted">Consistência e escalabilidade visual.</p>
+            <div class="card-actions">
+              <a href="#artigo2" class="saiba-mais" aria-expanded="false">Ler artigo →</a>
+            </div>
+          </article>
+          <article class="card">
+            <h4><a href="#artigo3" style="text-decoration:none;color:var(--text)">WCAG e Acessibilidade: Checklist para
+                Devs</a></h4>
+            <p class="muted">Otimizando a experiência para todos.</p>
+            <div class="card-actions">
+              <a href="#artigo3" class="saiba-mais" aria-expanded="false">Ler artigo →</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- AdSense Banner 8 - Antes do formulário (Alto CTR) -->
+      <div class="ads-container" role="complementary" aria-label="Publicidade">
+        <div class="adsense-ad">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-SEU_ID_AQUI" data-ad-slot="8901234567"
+            data-ad-format="horizontal" data-full-width-responsive="true" aria-hidden="true"></ins>
+        </div>
+      </div>
+
+      <section id="contato" class="section fade-up" aria-labelledby="contato-title" style="text-align:center">
+        <div class="section-title">
+          <h3 id="contato-title">Fale com a MakerAI Studio</h3>
+          <p class="muted">Quer transformar seu negócio com IA e criatividade? Envie uma mensagem.</p>
+        </div>
+        <form id="contactForm" aria-label="Formulário de contato" onsubmit="return false;">
+          <div class="grid-2">
+            <div>
+              <label for="nome" class="visually-hidden">Nome</label>
+              <input id="nome" type="text" placeholder="Nome completo" required aria-required="true" />
+            </div>
+            <div>
+              <label for="email" class="visually-hidden">E-mail</label>
+              <input id="email" type="email" placeholder="E-mail profissional" required aria-required="true" />
+            </div>
+          </div>
+          <div>
+            <label for="servico" class="visually-hidden">Serviço de interesse</label>
+            <select id="servico" aria-required="true">
+              <option value="">Serviço de interesse...</option>
+              <option value="pwa">Web Apps e PWAs</option>
+              <option value="ai">Avatares & Consultores IA</option>
+              <option value="rpa">Automações RPA</option>
+              <option value="3d">Modelagem 3D e AR</option>
+              <option value="dashboard">Sistemas e Dashboards</option>
+              <option value="seo">Conteúdo & SEO Técnico</option>
+              <option value="outro">Outro/Consultoria</option>
+            </select>
+          </div>
+          <div>
+            <label for="mensagem" class="visually-hidden">Mensagem</label>
+            <textarea id="mensagem" placeholder="Sua mensagem e escopo do projeto (obrigatório)" rows="5" required
+              aria-required="true"></textarea>
+          </div>
+          <div class="contact-actions">
+            <button type="submit" class="btn primary" data-i18n="btn_enviar">Enviar mensagem</button>
+            <button type="reset" class="btn ghost">Limpar</button>
+          </div>
+          <p class="small" style="margin-top:20px">Garantimos a privacidade dos seus dados e o máximo de sigilo sobre
+            seu projeto.</p>
+        </form>
+      </section>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <p>Desenvolvido com foco em performance e acessibilidade | © 2025 MakerAI Studio</p>
+        <div class="footer-links">
+          <a href="/politica-privacidade.html" data-i18n="footer_privacy">Política de Privacidade</a>
+          <span>•</span>
+          <a href="/termos-uso.html" data-i18n="footer_terms">Termos de Uso</a>
+          <span>•</span>
+          <a href="#contato" data-i18n="footer_contact">Contato</a>
+        </div>
+        <p class="small" style="margin-top:10px">Google AdSense ativo - Anúncios relevantes para desenvolvedores e
+          empreendedores</p>
+      </div>
+    </footer>
+
+    <button class="assistant" id="assistantBtn" aria-label="Abrir assistente IA" title="Assistente IA"
+      aria-expanded="false">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path
+          d="M12 2a10 10 0 0 0-9.8 11.6c.4 1.4 1.3 2.6 2.5 3.5.7.5 1.5.9 2.3 1.1h10a9.8 9.8 0 0 0 2.5-1.1 6 6 0 0 0 2.5-3.5A10 10 0 0 0 12 2zM12 17v2m0 0a1 1 0 0 1-1 1h2a1 1 0 0 1-1-1v-2">
+        </path>
+      </svg>
+    </button>
+
+    <div class="assistant-panel" id="assistantPanel" aria-hidden="true">
+      <iframe src="widgets/assistant.html" id="assistantIframe"
+        style="width:100%; height:100%; border:none; border-radius:20px;" title="Assistente IA MakerAI"
+        aria-label="Painel do Assistente IA" allow="microphone" loading="lazy">
+      </iframe>
+    </div>
+
+  </div>
+
+  <script>
+    // Inicialização otimizada do AdSense
+    document.addEventListener('DOMContentLoaded', function () {
+      // Carrega AdSense após 1 segundo (melhor performance)
+      setTimeout(function () {
+        const ads = document.querySelectorAll('.adsbygoogle');
+        if (ads.length > 0) {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+          console.log('AdSense carregado com sucesso para ' + ads.length + ' anúncios');
+        }
+      }, 1000);
+    });
+
+    // Funções utilitárias
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => document.querySelectorAll(selector);
+
+    // NOTIFICAÇÃO (TOAST)
+    function showToast(message, type = 'success') {
+      const existingToast = $('.toast-notification');
+      if (existingToast) existingToast.remove();
+
+      const toast = document.createElement('div');
+      toast.className = `toast-notification`;
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      toast.setAttribute('aria-atomic', 'true');
+      toast.style.cssText = `
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 120px;
+        background: ${type === 'error' ? '#ef4444' : '#10b981'};
+        color: white;
+        padding: 16px 24px;
+        border-radius: 12px;
+        z-index: 9999;
+        font-weight: 600;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        animation: toastIn 0.3s ease;
+        max-width: 90vw;
+        text-align: center;
+      `;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(20px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // FOCUS TRAP (Acessibilidade)
+    let _trapHandler = null;
+    let _lastFocusedElement = null;
+    function trapFocus(container) {
+      const focusable = container.querySelectorAll('a, button, textarea, input, select, [tabindex]:not([tabindex="-1"])');
+      if (!focusable.length) return;
+
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      _lastFocusedElement = document.activeElement; // Salva o elemento que tinha foco antes de abrir
+
+      _trapHandler = function (e) {
+        if (e.key !== 'Tab') return;
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      };
+      document.addEventListener('keydown', _trapHandler);
+    }
+    function releaseFocusTrap() {
+      if (_trapHandler) {
+        document.removeEventListener('keydown', _trapHandler);
+        _trapHandler = null;
+      }
+      if (_lastFocusedElement) {
+        _lastFocusedElement.focus();
+        _lastFocusedElement = null;
+      }
+    }
+
+    // NAVEGAÇÃO MOBILE
+    const hamburgerBtn = $('#hamburgerBtn');
+    const closeMobileNav = $('#closeMobileNav');
+    const mobileNav = $('#mobileNav');
+
+    function closeNav() {
+      mobileNav.classList.remove('active');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      releaseFocusTrap();
+    }
+
+    function openNav() {
+      mobileNav.classList.add('active');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      hamburgerBtn.setAttribute('aria-expanded', 'true');
+      const closeBtn = $('#closeMobileNav');
+      if (closeBtn) closeBtn.focus();
+      trapFocus(mobileNav);
+    }
+
+    if (hamburgerBtn) hamburgerBtn.addEventListener('click', openNav);
+    if (closeMobileNav) closeMobileNav.addEventListener('click', closeNav);
+
+    // Fecha o menu ao clicar em um link interno
+    $$('.mobile-nav-list a').forEach(link => {
+      link.addEventListener('click', closeNav);
+    });
+
+    // Fecha o menu ao clicar fora do painel
+    if (mobileNav) mobileNav.addEventListener('click', (e) => {
+      if (e.target === mobileNav) closeNav();
+    });
+
+    // TEMA (Dark/Light Mode)
+    const desktopToggle = $('#themeToggle');
+    const mobileToggle = $('#mobileThemeToggle');
+    const initialTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+
+    function applyTheme(theme) {
+      const isLight = theme === 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+
+      // Atualiza o ícone para o desktop
+      if (desktopToggle) {
+        desktopToggle.textContent = isLight ? '☀️' : '🌙';
+        desktopToggle.setAttribute('aria-label', isLight ? 'Alternar para tema escuro' : 'Alternar para tema claro');
+        desktopToggle.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+      }
+
+      // Atualiza o ícone para o mobile
+      if (mobileToggle) {
+        mobileToggle.textContent = isLight ? '☀️' : '🌙';
+        mobileToggle.setAttribute('aria-label', isLight ? 'Alternar para tema escuro' : 'Alternar para tema claro');
+        mobileToggle.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+      }
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      showToast(`Tema ${next === 'light' ? 'claro' : 'escuro'} ativado`);
+    }
+
+    function initTheme() {
+      if (desktopToggle) desktopToggle.addEventListener('click', toggleTheme);
+      if (mobileToggle) mobileToggle.addEventListener('click', toggleTheme);
+      applyTheme(initialTheme);
+    }
+
+    // IDIOMA (I18N)
+    const translations = {
+      pt: {
+        nav_servicos: "Serviços", nav_portfolio: "Portfólio", nav_cases: "Cases", nav_faq: "FAQ", nav_sobre: "Sobre", nav_contato: "Contato",
+        hero_title: "Soluções Inteligentes para Negócios Modernos — <span>IA, Web e Experiências</span>",
+        hero_sub: "Design, desenvolvimento e automações que transformam serviços em experiências rentáveis. Protótipos rápidos, produtos prontos e integração com IA para vendas, atendimento e retenção.",
+        cta_primary: "Quero minha solução", ver_portfolio: "Ver portfólio →", btn_enviar: "Enviar mensagem", msg_sent: "Mensagem enviada",
+        faq_q_1: "Quanto tempo leva para desenvolver um site?",
+        faq_a_1: "Depende do escopo. Protótipos: 1–2 semanas. Projeto completo: 4–8 semanas. Implementamos milestones e entregas parciais.",
+        faq_q_2: "Vocês oferecem suporte multilíngue?",
+        faq_a_2: "Sim — PT, EN, ES com traduções integradas e content fallback.",
+        faq_q_3: "Qual é o custo médio de um projeto?",
+        faq_a_3: "Variável. Sites básicos a partir de R$5.000; sistemas com IA e integrações complexas R$50.000+ (estimativa).",
+        faq_q_4: "Como integramos IA nos projetos?",
+        faq_a_4: "Integramos APIs de ML para chat, recomendações e automação. Podemos usar endpoints próprios (FastAPI) ou serviços externos.",
+        faq_q_5: "Vocês garantem acessibilidade?",
+        faq_a_5: "Sim — seguimento das recomendações WCAG, contraste, navegação por teclado e aria-attributes.",
+        faq_q_6: "Oferecem manutenção e suporte?",
+        faq_a_6: "Sim — planos mensais: correções, atualizações de segurança e monitoramento de performance.",
+        footer_privacy: "Política de Privacidade",
+        footer_terms: "Termos de Uso",
+        footer_contact: "Contato"
+      },
+      en: {
+        nav_servicos: "Services", nav_portfolio: "Portfolio", nav_cases: "Cases", nav_faq: "FAQ", nav_sobre: "About", nav_contato: "Contact",
+        hero_title: "Smart Solutions for Modern Business — <span>AI, Web, & Experiences</span>",
+        hero_sub: "Design, development, and automation that turn services into profitable experiences. Rapid prototypes, finished products, and AI integration for sales, support, and retention.",
+        cta_primary: "I want my solution", ver_portfolio: "View portfolio →", btn_enviar: "Send message", msg_sent: "Message sent",
+        faq_q_1: "How long does it take to develop a website?",
+        faq_a_1: "It depends on the scope. Prototypes: 1–2 weeks. Full project: 4–8 weeks. We implement milestones and partial deliveries.",
+        faq_q_2: "Do you offer multilingual support?",
+        faq_a_2: "Yes — PT, EN, ES with integrated translations and content fallback.",
+        faq_q_3: "What is the average cost of a project?",
+        faq_a_3: "Variable. Basic websites starting from $1,000; systems with AI and complex integrations $10,000+ (estimate).",
+        faq_q_4: "How do you integrate AI into projects?",
+        faq_a_4: "We integrate ML APIs for chat, recommendations, and automation. We can use our own endpoints (FastAPI) or external services.",
+        faq_q_5: "Do you guarantee accessibility?",
+        faq_a_5: "Yes — following WCAG recommendations, contrast, keyboard navigation, and aria-attributes.",
+        faq_q_6: "Do you offer maintenance and support?",
+        faq_a_6: "Yes — monthly plans: bug fixes, security updates, and performance monitoring.",
+        footer_privacy: "Privacy Policy",
+        footer_terms: "Terms of Use",
+        footer_contact: "Contact"
+      },
+      es: {
+        nav_servicos: "Servicios", nav_portfolio: "Portafolio", nav_cases: "Casos", nav_faq: "FAQ", nav_sobre: "Sobre", nav_contato: "Contacto",
+        hero_title: "Soluciones Inteligentes para Negocios Modernos — <span>IA, Web y Experiencias</span>",
+        hero_sub: "Diseño, desarrollo y automatizaciones que convierten servicios en experiencias rentables. Prototipos rápidos, productos listos e integraciones de IA para ventas, soporte y retención.",
+        cta_primary: "Quiero mi solución", ver_portfolio: "Ver portafolio →", btn_enviar: "Enviar mensaje", msg_sent: "Mensaje enviado",
+        faq_q_1: "¿Cuánto tiempo lleva desarrollar un sitio web?",
+        faq_a_1: "Depende del alcance. Prototipos: 1–2 semanas. Proyecto completo: 4–8 semanas. Implementamos hitos y entregas parciales.",
+        faq_q_2: "¿Ofrecen soporte multilingüe?",
+        faq_a_2: "Sí — PT, EN, ES con traducciones integradas y content fallback.",
+        faq_q_3: "¿Cuál es el costo promedio de un proyecto?",
+        faq_a_3: "Variable. Sitios web básicos a partir de $1,000; sistemas con IA e integraciones complejas $10,000+ (estimación).",
+        faq_q_4: "¿Cómo integran la IA en los proyectos?",
+        faq_a_4: "Integramos APIs de ML para chat, recomendaciones y automatización. Podemos usar endpoints propios (FastAPI) o servicios externos.",
+        faq_q_5: "¿Garantizan la accesibilidad?",
+        faq_a_5: "Sí — siguiendo las recomendaciones WCAG, contraste, navegación por teclado y aria-attributes.",
+        faq_q_6: "¿Ofrecen mantenimiento y soporte?",
+        faq_a_6: "Sí — planes mensuales: correcciones, actualizaciones de seguridad y monitoreo de rendimiento.",
+        footer_privacy: "Política de Privacidad",
+        footer_terms: "Términos de Uso",
+        footer_contact: "Contacto"
+      }
+    };
+
+    let currentLang = localStorage.getItem('lang') || 'pt';
+
+    function applyLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      const dict = translations[lang] || translations['pt'];
+
+      $$('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        let translation = dict[key] || translations['pt'][key] || el.textContent;
+        // Permite HTML dentro das traduções (como no hero_title <span>)
+        if (key === 'hero_title') {
+          el.innerHTML = translation;
+        } else {
+          el.textContent = translation;
+        }
+      });
+
+      // Atualiza botões ativos (Desktop)
+      $$('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+        btn.setAttribute('aria-pressed', btn.dataset.lang === lang ? 'true' : 'false');
+      });
+
+      // Atualiza botões ativos (Mobile)
+      $$('.mobile-lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      // Atualiza o atributo lang no html
+      document.documentElement.lang = lang;
+
+      showToast(`Idioma alterado para ${lang.toUpperCase()}`);
+    }
+
+    function initLang() {
+      const langBtns = $$('.lang-btn, .mobile-lang-btn');
+      langBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+          const lang = this.dataset.lang;
+          applyLang(lang);
+        });
+      });
+      applyLang(currentLang);
+    }
+
+    // INFO CARDS (Saiba Mais)
+    const infoCards = $$('.info-card');
+
+    function openInfoCard(infoEl, triggerBtn) {
+      infoEl.classList.add('open');
+      infoEl.setAttribute('aria-hidden', 'false');
+      // set aria-expanded in trigger
+      if (triggerBtn) triggerBtn.setAttribute('aria-expanded', 'true');
+      // focus management: move focus to close button inside info
+      const closeBtn = infoEl.querySelector('.close-info');
+      if (closeBtn) closeBtn.focus();
+      trapFocus(infoEl);
+    }
+
+    function closeInfoCard(infoEl) {
+      infoEl.classList.remove('open');
+      infoEl.setAttribute('aria-hidden', 'true');
+      // restore aria-expanded on the matching trigger if present
+      const topic = infoEl.dataset.topic;
+      const trigger = document.querySelector('.saiba-mais[data-topic="' + topic + '"]');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      releaseFocusTrap();
+      if (trigger) trigger.focus(); // Retorna o foco ao botão de "Saiba Mais"
+    }
+
+    $$('.saiba-mais').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const topic = this.dataset.topic;
+
+        // ===== CORREÇÃO AQUI: escolhe o info-card correto dependendo do tamanho da tela =====
+        let info;
+        if (window.innerWidth < 768) {
+          // Mobile ou janela pequena: usa o info-card que está dentro do carrossel
+          info = document.querySelector('.cards-carousel-container .info-card[data-topic="' + topic + '"]');
+        } else {
+          // Desktop ou janela grande: usa o info-card que está dentro do grid
+          info = document.querySelector('.grid.mobile-carousel .info-card[data-topic="' + topic + '"]');
+        }
+        // Segurança: se não encontrar no lugar certo, pega qualquer um com o mesmo topic
+        if (!info) {
+          info = document.querySelector('.info-card[data-topic="' + topic + '"]');
+        }
+        // ===============================================================================
+
+        // Fecha todas as outras que possam estar abertas
+        $$('.info-card.open').forEach(card => {
+          if (card !== info) closeInfoCard(card);
+        });
+
+        if (info && !info.classList.contains('open')) {
+          openInfoCard(info, this);
+        } else {
+          closeInfoCard(info);
+        }
+      });
+    });
+
+    $$('.close-info').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const info = this.closest('.info-card');
+        if (info) closeInfoCard(info);
+      });
+    });
+
+    // fecha info-card se pressionar ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const openCard = $('.info-card.open');
+        if (openCard) closeInfoCard(openCard);
+      }
+    });
+
+    // CAROUSEL PRINCIPAL
+    function initCarousel() {
+      const inner = document.getElementById('carouselInner');
+      const dots = document.getElementById('dots');
+      if (!inner || !dots) return;
+
+      const slides = inner.children.length;
+      let currentIndex = 0;
+      let intervalId;
+      let isMobile = window.innerWidth < 768;
+
+      function updateCarousel() {
+        // Só aplica transform em desktop
+        if (!isMobile) {
+          const offset = -currentIndex * 100;
+          inner.style.transform = `translateX(${offset}%)`;
+        }
+
+        $$('.dot').forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentIndex);
+          dot.setAttribute('aria-label', `Ir para o slide ${index + 1}`);
+          dot.setAttribute('aria-selected', index === currentIndex);
+        });
+
+        $$('.carousel-item').forEach((item, index) => {
+          item.setAttribute('aria-hidden', index !== currentIndex);
+        });
+      }
+
+      function goToSlide(index) {
+        currentIndex = (index + slides) % slides;
+        updateCarousel();
+
+        if (!isMobile) {
+          resetAutoPlay();
+        } else {
+          // Em mobile, scroll suave para o slide
+          const slideWidth = inner.children[0].offsetWidth + 16; // width + gap
+          inner.scrollTo({
+            left: currentIndex * slideWidth,
+            behavior: 'smooth'
+          });
+        }
+      }
+
+      $$('.dot').forEach((dot, index) => {
+        dot.addEventListener('click', () => goToSlide(index));
+      });
+
+      // Auto-play só em desktop
+      function startAutoPlay() {
+        if (!isMobile) {
+          intervalId = setInterval(() => goToSlide(currentIndex + 1), 8000);
+        }
+      }
+
+      function resetAutoPlay() {
+        clearInterval(intervalId);
+        startAutoPlay();
+      }
+
+      // Em mobile, detecta scroll para atualizar dots
+      if (isMobile) {
+        let scrollTimeout;
+        inner.addEventListener('scroll', () => {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            const scrollPos = inner.scrollLeft;
+            const slideWidth = inner.children[0].offsetWidth + 16;
+            const newIndex = Math.round(scrollPos / slideWidth);
+            if (newIndex !== currentIndex) {
+              currentIndex = newIndex;
+              updateCarousel();
+            }
+          }, 100);
+        });
+      }
+
+      updateCarousel();
+      startAutoPlay();
+
+      // Recalcula ao redimensionar
+      window.addEventListener('resize', () => {
+        const newIsMobile = window.innerWidth < 768;
+        if (newIsMobile !== isMobile) {
+          isMobile = newIsMobile;
+          if (isMobile) {
+            clearInterval(intervalId);
+            inner.style.transform = 'none';
+          } else {
+            startAutoPlay();
+            updateCarousel();
+          }
+        }
+      });
+    }
+
+    // CARROSSEIS DE CARDS (mobile)
+    function initCardCarousels() {
+      const carousels = {
+        'servicos': '#servicosCarousel',
+        'tech': '#techCarousel',
+        'assistentes': '#assistentesCarousel',
+        'produtos': '#produtosCarousel',
+        'blog': '#blogCarousel',
+        'cases': '#casesCarousel'
+      };
+
+      Object.keys(carousels).forEach(key => {
+        const carousel = $(carousels[key]);
+        const indicators = $(`#${key}Indicators`);
+
+        if (!carousel || !indicators) return;
+
+        const cards = carousel.children;
+        const cardCount = cards.length;
+
+        // Cria indicadores
+        indicators.innerHTML = '';
+        for (let i = 0; i < cardCount; i++) {
+          const indicator = document.createElement('button');
+          indicator.className = `carousel-indicator ${i === 0 ? 'active' : ''}`;
+          indicator.setAttribute('aria-label', `Ir para o card ${i + 1}`);
+          indicator.setAttribute('type', 'button');
+          indicator.addEventListener('click', () => {
+            scrollToCard(carousel, i);
+            updateIndicators(indicators, i);
+          });
+          indicators.appendChild(indicator);
+        }
+
+        // Atualiza indicadores durante scroll
+        let scrollTimeout;
+        carousel.addEventListener('scroll', () => {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            const scrollPos = carousel.scrollLeft;
+            const cardWidth = carousel.children[0].offsetWidth + 16; // width + gap
+            const currentIndex = Math.round(scrollPos / cardWidth);
+            updateIndicators(indicators, currentIndex);
+          }, 100);
+        });
+
+        // Adiciona navegação por setas do teclado
+        carousel.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            const scrollPos = carousel.scrollLeft;
+            const cardWidth = carousel.children[0].offsetWidth + 16;
+            const currentIndex = Math.round(scrollPos / cardWidth);
+            const newIndex = e.key === 'ArrowLeft'
+              ? Math.max(0, currentIndex - 1)
+              : Math.min(cardCount - 1, currentIndex + 1);
+
+            scrollToCard(carousel, newIndex);
+            updateIndicators(indicators, newIndex);
+          }
+        });
+      });
+
+      function scrollToCard(carousel, index) {
+        const cardWidth = carousel.children[0].offsetWidth + 16; // width + gap
+        carousel.scrollTo({
+          left: index * cardWidth,
+          behavior: 'smooth'
+        });
+      }
+
+      function updateIndicators(indicators, activeIndex) {
+        const indicatorButtons = indicators.querySelectorAll('.carousel-indicator');
+        indicatorButtons.forEach((indicator, index) => {
+          indicator.classList.toggle('active', index === activeIndex);
+        });
+      }
+    }
+
+    // ASSISTENTE DE IA COM IFRAME
+    function initAssistant() {
+      const assistantBtn = $('#assistantBtn');
+      const assistantPanel = $('#assistantPanel');
+      const assistantIframe = $('#assistantIframe');
+      if (!assistantBtn || !assistantPanel) return;
+
+      function toggleAssistant() {
+        const open = assistantPanel.classList.toggle('open');
+        assistantBtn.setAttribute('aria-expanded', open);
+        assistantPanel.setAttribute('aria-hidden', !open);
+
+        // Foca no iframe quando abre
+        if (open && assistantIframe) {
+          setTimeout(() => {
+            assistantIframe.focus();
+            // Comunica com o iframe se necessário
+            if (assistantIframe.contentWindow) {
+              assistantIframe.contentWindow.postMessage({ type: 'PING' }, '*');
+            }
+          }, 300);
+        } else {
+          releaseFocusTrap();
+        }
+      }
+
+      assistantBtn.addEventListener('click', toggleAssistant);
+
+      // Fecha o painel ao clicar em ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && assistantPanel.classList.contains('open')) {
+          toggleAssistant();
+          assistantBtn.focus();
+        }
+      });
+
+      // Escuta mensagens do iframe
+      window.addEventListener('message', (event) => {
+        if (event.data?.type === 'ASSISTANT_READY') {
+          console.log('🤖 Assistente IA carregado com sucesso');
+        }
+
+        if (event.data?.type === 'CLOSE_ASSISTANT') {
+          toggleAssistant();
+        }
+      });
+    }
+
+    // VALIDAÇÃO DO FORMULÁRIO DE CONTATO
+    function initFormValidation() {
+      const form = $('#contactForm');
+      if (!form) return;
+
+      form.onsubmit = function () {
+        const nome = document.getElementById('nome')?.value.trim();
+        const email = document.getElementById('email')?.value.trim();
+        const mensagem = document.getElementById('mensagem')?.value.trim();
+        const lang = currentLang;
+
+        if (!nome || !email || !mensagem) {
+          showToast(lang === 'en' ? 'Please fill in all required fields.' : (lang === 'es' ? 'Por favor, rellene todos los campos obligatorios.' : 'Por favor, preencha todos os campos obrigatórios.'), 'error');
+          return;
+        }
+
+        // Validação básica de email
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          showToast(lang === 'en' ? 'Please enter a valid email address.' : (lang === 'es' ? 'Por favor, introduzca una dirección de correo electrónico válida.' : 'Por favor, insira um endereço de e-mail válido.'), 'error');
+          return;
+        }
+
+        // Simulação de envio
+        console.log({ nome, email, mensagem, servico: document.getElementById('servico')?.value });
+        showToast(translations[lang].msg_sent, 'success');
+        document.getElementById('contactForm')?.reset();
+      };
+    }
+
+    // Funções de demonstração para o portfolio
+    window.openProject = (project) => showToast(`Abrindo projeto: ${project}`);
+    window.openCode = (project) => showToast(`Abrindo código: ${project}`);
+    window.openCase = (caseName) => showToast(`Abrindo case: ${caseName}`);
+
+    // ANIMAÇÃO DE NÚMEROS (KPI)
+    function initAnimatedCounters() {
+      // 1. Encontra todos os números que queremos animar (o conteúdo da tag <strong> dentro de .kpi)
+      const counterElements = document.querySelectorAll('.kpi strong');
+
+      // 2. Define a velocidade da animação (2000ms = 2 segundos)
+      const duration = 2000;
+      const totalFrames = duration / (1000 / 60); // 60 frames por segundo
+
+      // 3. Faz a animação para cada número encontrado
+      counterElements.forEach(element => {
+        const fullText = element.textContent.trim();
+        // Extrai o número e os símbolos (+, %, x)
+        const targetValue = parseInt(fullText.match(/[\d.]+/));
+        const prefix = fullText.match(/^[^0-9.]*/) ? fullText.match(/^[^0-9.]*/)[0] : '';
+        const suffix = fullText.match(/[^0-9.]*$/) ? fullText.match(/[^0-9.]*$/)[0] : '';
+
+        let frame = 0;
+
+        const updateCounter = () => {
+          frame++;
+          let progress = frame / totalFrames; // Era 'const', agora é 'let' para poder ser alterada
+
+          // ADIÇÃO PARA SUAVIZAÇÃO: Efeito 'Ease Out'
+          // Isso faz com que a contagem desacelere no final
+          progress = 1 - Math.pow(1 - progress, 3);
+
+          // Calcula o valor atual
+          const currentValue = Math.min(targetValue, Math.floor(targetValue * progress));
+
+          // Atualiza o texto na tela
+          element.textContent = `${prefix}${currentValue}${suffix}`;
+
+          // Repete o processo até o fim
+          if (frame < totalFrames) {
+            requestAnimationFrame(updateCounter);
+          } else {
+            // Garante que o número final seja o valor exato
+            element.textContent = fullText;
+          }
+        };
+        requestAnimationFrame(updateCounter);
+      });
+    }
+
+    // Inicialização
+    initTheme();
+    initLang();
+    initCarousel();
+    initCardCarousels(); // Inicializa os carrosséis de cards
+    initAssistant();
+    initFormValidation(); // Removida a chamada duplicada aqui.
+
+    // CÓDIGO DE OTIMIZAÇÃO: SÓ INICIA A CONTAGEM QUANDO OS NÚMEROS ESTÃO VISÍVEIS (CORRETO)
+    const kpisSection = document.querySelector('.hero .kpis'); // Encontra o container dos números
+
+    if (kpisSection) {
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          // Se o container .kpis entrou na área visível da tela
+          if (entry.isIntersecting) {
+            initAnimatedCounters();         // INICIA A CONTAGEM AQUI, de forma otimizada!
+            observer.unobserve(entry.target); // Para de observar (roda a contagem apenas uma vez)
+          }
+        });
+      }, {
+        threshold: 0.5 // Aciona quando 50% do container está visível
+      });
+
+      observer.observe(kpisSection); // Começa a monitorar o container
+    }
+
+    // Aplica a animação fade-up após a inicialização
+    setTimeout(() => {
+      $$('.fade-up').forEach((el, i) => {
+        el.style.transitionDelay = `${i * 0.1}s`;
+        el.classList.add('show');
+      });
+    }, 100);
+  </script>
+</body>
+
+</html>
